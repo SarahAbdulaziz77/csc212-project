@@ -2,8 +2,6 @@
 public class Linkedlist<T> {
 	private Node <T> Head;
     private Node<T>  current;
-    private Node<T> next;
-    private T data;
 
     public Linkedlist() {
         Head=current=null;
