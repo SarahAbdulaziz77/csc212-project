@@ -14,7 +14,7 @@ public class Linkedlist<T> {
     public void FindNext(){
         current=current.next;
     }
-    public void update(T a){
+    public void update(T d){
         current.data=d;
 
     }
