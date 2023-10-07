@@ -57,7 +57,6 @@ public class LinkedList<T> {
     		  current=head;
     	  }
     	}
-    }
    public void AddInOrder(T new_contact) {
     Node<T> c = new Node<T>(new_contact);
     Node<T> p = head;
