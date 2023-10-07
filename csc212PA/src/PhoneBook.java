@@ -1,6 +1,6 @@
 package CSC212_PA;
 
-public class PhoneBook {
+public class Phonebook {
 //phone book methods 
 	
 	
