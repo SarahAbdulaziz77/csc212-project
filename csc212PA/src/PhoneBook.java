@@ -81,9 +81,10 @@ do {
 		choice=keyboard.nextInt();
 	}
 	}//close switch
-}while(choice!=8 || choice>8 || choice<1 );
+}while(choice!=8);
 	
 }//end main
 
 }
+
 
