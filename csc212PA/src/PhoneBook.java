@@ -8,9 +8,8 @@ public class PhoneBook {
 //main method
 	public static void main(String[] args) {
 	Scanner keyboard = new Scanner(System.in);
-	Contact user1 = new Contact("Mashael", "012", "gmail","house", "2003", "extranotes");
-	LinkedList<Contact> phonebook = new LinkedList<Contact>();
-	phonebook.AddInOrder(user1);
+	
+	LinkedList<Contact> ContactsList = new LinkedList<Contact>();
 	int choice = 0;
 do {
 	System.out.println("Welcome to the Linked Tree PhoneBook!");
@@ -28,22 +27,24 @@ do {
 	switch(choice) {
 	case 1:{
 		System.out.print("\nEnter the contact's name:");
-		String name = keyboard.next();
+		keyboard.nextLine(); //garbage
+		String name = keyboard.nextLine();
 		//check by search name if unique method?? then ask user to retry maybe or say nothing
 		System.out.print("Enter the contact's phone number:");
 		String phone_number = keyboard.next();
 		System.out.print("Enter the contact's email address:");
 		String email = keyboard.next();
 		System.out.print("Enter the contact's address:");
-		String address = keyboard.next();
+		keyboard.nextLine(); //garbage
+		String address = keyboard.nextLine();
 		System.out.print("Enter the contact's birthday:");
 		String birthday = keyboard.next();
 		System.out.print("Enter any notes for the contact:");
-		keyboard.nextLine();//garabage
+		keyboard.nextLine(); //garbage
 		String notes = keyboard.nextLine();
 		//add
-		phonebook.AddInOrder(new Contact(name,phone_number,email,address,birthday,notes));
-		System.out.println("Contact added successfully!\n1");
+		ContactsList.AddInOrder(new Contact(name,phone_number,email,address,birthday,notes));
+		System.out.println("Contact added successfully!\n");
 	break;
 	}
 	case 2:{
@@ -75,13 +76,14 @@ do {
 	break;
 	}	
 	default:
-	{
+	{ //didnt check if he enters wrong multiple times 
 		System.out.println("Incorrect number please choose from 1-8!");
 		choice=keyboard.nextInt();
 	}
 	}//close switch
-}while(choice!=8);
+}while(choice!=8 || choice>8 || choice<1 );
 	
 }//end main
 
 }
+
