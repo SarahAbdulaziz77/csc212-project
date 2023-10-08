@@ -2,7 +2,7 @@ package CSC212_PA;
 
 import java.util.Scanner;
 public class PhoneBook {
-//phone book methods 
+//phone book methods for interacting with contacts list
 	
 	
 //main method
@@ -26,6 +26,7 @@ do {
 	choice = keyboard.nextInt();
 	switch(choice) {
 	case 1:{
+		//add a contact
 		System.out.print("\nEnter the contact's name:");
 		keyboard.nextLine(); //garbage
 		String name = keyboard.nextLine();
@@ -64,7 +65,19 @@ do {
 	break;
 	}	
 	case 6:{
-	
+	//Print contacts by first name
+		System.out.print("\nEnter the first name:");
+		String firstName=keyboard.next();
+		//here we tell them if there is contacts found or not before printing we need search method
+		//if()
+			//System.out.println("Contacts found!");
+		ContactsList.FindFirst();
+		while(!ContactsList.last()) {
+			String fullName= ContactsList.Retrieve().getFullName();
+			if(fullName.substring(0,fullName.indexOf(' ')).equals(firstName)) {
+				System.out.println(ContactsList.Retrieve());}
+		}
+			
 	break;
 	}	
 	case 7:{
@@ -76,7 +89,7 @@ do {
 	break;
 	}	
 	default:
-	{ //didnt check if he enters wrong multiple times 
+	{ //did not check if he enters wrong multiple times 
 		System.out.println("Incorrect number please choose from 1-8!");
 		choice=keyboard.nextInt();
 	}
