@@ -2,7 +2,7 @@ package CSC212_PA;
 
 import java.util.Scanner;
 public class PhoneBook {
-//phone book methods for interacting with contacts list
+//phone book methods for interacting with contacts list(when adding,searching,deleting)
 	
 	
 //main method
