@@ -69,14 +69,14 @@ public class LinkedList<T> {
     }
 
     // If the new contact should be at first
-    if (((Contact) new_contact).compareTo(((Contact) head.data).getName()) < 0) {
+    if (((Contact) new_contact).compareTo(((Contact) head.data).getFullName()) < 0) {
         c.next = head;
         head = c;
         return;
     }
 
     // Find the suitable position to insert the new contact
-    while (p != null && ((Contact) new_contact).compareTo(((Contact) p.data).getName()) >= 0) {
+    while (p != null && ((Contact) new_contact).compareTo(((Contact) p.data).getFullName()) >= 0) {
         q = p;
         p = p.next;
     }
