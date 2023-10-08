@@ -68,8 +68,8 @@ public void setNotes(String notes) {
 }
 @Override
 public String toString() {
-	return "Contact info:\n Contact FullName:" + fullname + ", PhoneNumber:" + phone_number + ", Email Address:" + email + ", Address:" + address + ", Birthday:"
-			+ birthday + "\n notes:" + notes;
+	return "\nName:" + fullname + "\nPhoneNumber:" + phone_number + "\nEmail Address:" + email + "\nAddress:" + address + "\nBirthday:"
+			+ birthday + "\nNotes:" + notes;
 }
 @Override
 public int compareTo(String fullname2) {
