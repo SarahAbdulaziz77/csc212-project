@@ -1,7 +1,6 @@
 package CSC212_PA;
 import java.util.Scanner;
-
- public class PhoneBook {
+    public class PhoneBook {
 //phone book methods for interacting with contacts list(when adding,searching,deleting)
 
         public static Contact SearchForName(LinkedList<Contact> List,String name) {
@@ -37,9 +36,24 @@ import java.util.Scanner;
                 return null;
             }
         }
-        
-        
-        
+
+        public static LinkedList<Contact> SearchForEmail(LinkedList<Contact> List ,String email) {
+            LinkedList<Contact> EmailFound = new LinkedList<Contact>();
+            if (List.isEmpty()) {
+                return EmailFound;} 
+            else {
+                List.FindFirst();
+                while (!List.last()) {
+                    if (List.Retrieve().getEmail().equalsIgnoreCase(email))
+                        EmailFound.insert(List.Retrieve());
+                    List.FindNext();
+                }
+                if (List.Retrieve().getEmail().equalsIgnoreCase(email))
+                    EmailFound.insert(List.Retrieve());
+                
+                return EmailFound;
+            }
+        }
         //main method
         public static void main(String[] args) {
             Scanner keyboard = new Scanner(System.in);
