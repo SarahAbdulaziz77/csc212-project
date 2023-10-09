@@ -83,6 +83,8 @@ public class LinkedList<T> {
     // Insert the new contact at the appropriate position
     q.next = c;
     c.next = p;
+	   // is current after the inserted one?
+    current= c.next;
    }
    
    
