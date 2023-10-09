@@ -52,7 +52,18 @@ do {
 		
 	break;
 	}
-	case 3:{
+	case 3:{ 
+		//delete a contact
+		System.out.print("Enter the contact's name or phone number");
+		String nameOrNumber = keyboard.nextLine();
+		//when the contact is deleted, the variable deleted will be true
+		boolean deleted = ContactsList.deleteContact(nameOrNumber); 
+		if (deleted == true) {
+			System.out.print("\nThe contact is deleted successfully!");
+		}else {
+			System.out.print("\nThe contact is not found");
+		}
+		
 	
 	break;
 	}
@@ -99,5 +110,4 @@ do {
 }//end main
 
 }
-
 
