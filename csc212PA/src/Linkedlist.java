@@ -1,4 +1,3 @@
-
 public class LinkedList<T> {
 	private Node<T> head;
     private Node<T> current;
@@ -85,6 +84,64 @@ public class LinkedList<T> {
     q.next = c;
     c.next = p;
    }
-
-
+   
+   
+   
+   public boolean deleteContact(String nameOrNumber) {
+	   //if the list is empty
+	   if (head == null) 
+		   return false;
+	   
+	   //if there is one element in the list
+	   if (head.next == null) { 
+		     if (((Contact)head.data).getFullName().equals(nameOrNumber) || ((Contact)head.data).getNumber().equals(nameOrNumber)) {
+		     head = head.next; //or head = null;
+	    	 current = head;
+	    	 return true;
+	    	 }
+		     else
+		      return false;  
+		    }
+	   
+	   
+	   // if the contact is in head, and there are more than 1 element in the list
+	   if (((Contact)head.data).getFullName().equals(nameOrNumber) || ((Contact)head.data).getNumber().equals(nameOrNumber)) {
+	    	 head = head.next; 
+	    	 current = head;
+	    	 return true;
+	    	  } 
+	          else {
+	    		 
+	   
+	   Node<T> p = head.next;
+	   Node<T> q = head;
+	   
+	   // checking the rest of the list, except for head (already checked)
+	   while(p.next!= null) {
+		   if (((Contact)p.data).getFullName().equals(nameOrNumber) || ((Contact)p.data).getNumber().equals(nameOrNumber)) {
+			   q.next = p.next;
+			   current = p.next;
+			   return true;
+		   }
+			   
+		   else {
+			   p = p.next;
+			   q = q.next;
+		   }
+	   }//while stops here
+		
+	       // checking the last element in the list
+		   if (((Contact)p.data).getFullName().equals(nameOrNumber) || ((Contact)p.data).getNumber().equals(nameOrNumber)) {
+			   q = q.next; //or q.next = null;
+			   current = head;
+			   return true;
+		   }
+		  
+	   }
+	   //all cases have been checked 
+	   return false;
+   }
+	   
+   
+ 
 }
