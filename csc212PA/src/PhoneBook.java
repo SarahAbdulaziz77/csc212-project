@@ -36,28 +36,8 @@ public class PhoneBook {
         return false;
     }
 //MASHAEL
-    public static boolean addInOrder(LinkedList<Contact> ContactsList) {
-        System.out.print("\nEnter the contact's name:");
-        // remove garbage
-        keyboard.nextLine();
-        String name = keyboard.nextLine();
-        System.out.print("Enter the contact's phone number:");
-        String phone_number = keyboard.next();
-        System.out.print("Enter the contact's email address:");
-        String email = keyboard.next();
-        System.out.print("Enter the contact's address:");
-        // remove garbage
-        keyboard.nextLine();
-        String address = keyboard.nextLine();
-        System.out.print("Enter the contact's birthday:");
-        String birthday = keyboard.next();
-        System.out.print("Enter any notes for the contact:");
-        // remove garbage
-        keyboard.nextLine();
-        String notes = keyboard.nextLine();
-        // create a contact
-        Contact new_contact = new Contact(name, phone_number, email, address, birthday, notes);
-        
+    public static boolean addInOrder(LinkedList<Contact> ContactsList,Contact new_contact) {
+     
         if (!exist(ContactsList, new_contact)) {
             if(ContactsList.isEmpty()) {
             	ContactsList.insert(new_contact);
@@ -98,6 +78,7 @@ public class PhoneBook {
                 matching_contacts.insert( ContactsList.Retrieve() );
             ContactsList.FindNext();
             }
+        
             // check last element
             contact_fullName= ContactsList.Retrieve().getFullName();
             if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equals(firstName)) 
@@ -191,7 +172,27 @@ public class PhoneBook {
             choice = keyboard.nextInt();
             switch(choice) {
                 case 1:{
-                    if(addInOrder(ContactsList) )
+                	 System.out.print("\nEnter the contact's name:");
+                     // remove garbage
+                     keyboard.nextLine();
+                     String name = keyboard.nextLine();
+                     System.out.print("Enter the contact's phone number:");
+                     String phone_number = keyboard.next();
+                     System.out.print("Enter the contact's email address:");
+                     String email = keyboard.next();
+                     System.out.print("Enter the contact's address:");
+                     // remove garbage
+                     keyboard.nextLine();
+                     String address = keyboard.nextLine();
+                     System.out.print("Enter the contact's birthday:");
+                     String birthday = keyboard.next();
+                     System.out.print("Enter any notes for the contact:");
+                     // remove garbage
+                     keyboard.nextLine();
+                     String notes = keyboard.nextLine();
+                     // create a contact
+                     Contact new_contact = new Contact(name, phone_number, email, address, birthday, notes);
+                    if(addInOrder(ContactsList,new_contact) )
                     	System.out.println("\nContact added successfully!\n");
                     else 
                     	System.out.println("\nContact already exists.\n");
@@ -262,3 +263,4 @@ public class PhoneBook {
     }//end main
 
 }
+
