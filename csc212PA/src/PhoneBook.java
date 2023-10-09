@@ -98,57 +98,94 @@ public class PhoneBook {
             	    }
     }
 //SARAH
-    public static Contact SearchForName(LinkedList<Contact> List,String name) {
-        if(List.isEmpty()) {
-            return null;
-        }
-        else {
-            List.FindFirst();
-            while(!List.last()) {
-                if(List.Retrieve().getFullName().equalsIgnoreCase(name)) {
-                    return List.Retrieve();}
-                List.FindNext();
-            }
-            if(List.Retrieve().getFullName().equalsIgnoreCase(name))
-                return List.Retrieve();
+    public static Contact SearchForName(LinkedList<Contact> ContactsList, String name) {
+            if (ContactsList.isEmpty()) {
                 return null;
-        }
-    }
-
-    public static Contact SearchForPhoneNumber(LinkedList<Contact> List,String number) {
-        if(List.isEmpty()) {
-            return null;
-        }
-        else {
-            List.FindFirst();
-            while(!List.last()) {
-                if(List.Retrieve().getFullName().equalsIgnoreCase(number)) {
-                    return List.Retrieve();}
-                List.FindNext();
+            } else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()) {
+                    if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) {
+                        return ContactsList.Retrieve();
+                    }
+                    ContactsList.FindNext();
+                }
+                if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name))
+                    return ContactsList.Retrieve();
+                return null;
             }
-            if(List.Retrieve().getFullName().equalsIgnoreCase(number))
-                return List.Retrieve();
-            return null;
         }
-    }
 
-    public static LinkedList<Contact> SearchForEmail(LinkedList<Contact> List ,String email) {
-        LinkedList<Contact> EmailFound = new LinkedList<Contact>();
-        if (List.isEmpty()) {
-            return EmailFound;} 
-        else {
-            List.FindFirst();
-            while (!List.last()) {
-                if (List.Retrieve().getEmail().equalsIgnoreCase(email))
-                    EmailFound.insert(List.Retrieve());
-                List.FindNext();
+        public static Contact SearchForPhoneNumber(LinkedList<Contact> ContactsList, String number) {
+            if (ContactsList.isEmpty()) {
+                return null;
+            } else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()) {
+                    if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(number)) {
+                        return ContactsList.Retrieve();
+                    }
+                    ContactsList.FindNext();
+                }
+                if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(number))
+                    return ContactsList.Retrieve();
+                return null;
             }
-            if (List.Retrieve().getEmail().equalsIgnoreCase(email))
-                EmailFound.insert(List.Retrieve());
-            
-            return EmailFound;
         }
-    }
+
+        public static LinkedList<Contact> SearchForEmail(LinkedList<Contact> ContactsList, String email) {
+            LinkedList<Contact> EmailFound = new LinkedList<Contact>();
+            if (ContactsList.isEmpty()) {
+                return EmailFound;
+            } else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()) {
+                    if (ContactsList.Retrieve().getEmail().equalsIgnoreCase(email))
+                        EmailFound.insert(ContactsList.Retrieve());
+                    ContactsList.FindNext();
+                }
+                if (ContactsList.Retrieve().getEmail().equalsIgnoreCase(email))
+                    EmailFound.insert(ContactsList.Retrieve());
+
+                return EmailFound;
+            }
+        }
+
+        public static LinkedList<Contact> SearchForAddress(LinkedList<Contact> ContactsList, String address) {
+            LinkedList<Contact> AddressFound = new LinkedList<Contact>();
+            if (ContactsList.isEmpty()) {
+                return AddressFound;
+            } else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()) {
+                    if (ContactsList.Retrieve().getAddress().equalsIgnoreCase(address))
+                        AddressFound.insert(ContactsList.Retrieve());
+                    ContactsList.FindNext();
+                }
+                if (ContactsList.Retrieve().getAddress().equalsIgnoreCase(address))
+                    AddressFound.insert(ContactsList.Retrieve());
+
+                return AddressFound;
+            }
+        }
+
+        public static LinkedList<Contact> SearchForBirthday(LinkedList<Contact> ContactsList, String birthday) {
+            LinkedList<Contact> BirthdayFound = new LinkedList<Contact>();
+            if (ContactsList.isEmpty()) {
+                return BirthdayFound;
+            } else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()) {
+                    if (ContactsList.Retrieve().getBirthday().equalsIgnoreCase(birthday))
+                        BirthdayFound.insert(ContactsList.Retrieve());
+                    ContactsList.FindNext();
+                }
+                if (ContactsList.Retrieve().getBirthday().equalsIgnoreCase(birthday))
+                    BirthdayFound.insert(ContactsList.Retrieve());
+
+                return BirthdayFound;
+            }
+        }
+
     
     //main method
     public static void main(String[] args) {
@@ -198,9 +235,43 @@ public class PhoneBook {
                     	System.out.println("\nContact already exists.\n");
                     break;
                 }
-                case 2:{
-
-                    break;
+                case 2: {
+                            System.out.println("Enter search criteria: ");
+                            System.out.println("1.Name");
+                            System.out.println("2.Phone Number");
+                            System.out.println("3.Email Address ");
+                            System.out.println("4.Address ");
+                            System.out.println("5.Birthday");
+                            System.out.println("Enter your choice: ");
+                            int SearchCriteria = keyboard.nextInt();
+                            switch (SearchChoice) {
+                                case 1:
+                                    System.out.println("Enter the contact's name: ");
+                                    String name = keyboard.nextLine();
+                                    PhoneBook.SearchForName(ContactsList, name);
+                                    break;
+                                case 2:
+                                    System.out.println("Enter the contact's Phone Number: ");
+                                    String PhoneNumber = keyboard.nextLine();
+                                    PhoneBook.SearchForPhoneNumber(ContactsList, PhoneNumber);
+                                    break;
+                                case 3:
+                                    System.out.println("Enter the contact's Email Address: ");
+                                    String Email = keyboard.nextLine();
+                                    PhoneBook.SearchForEmail(ContactsList, Email);
+                                    break;
+                                case 4:
+                                    System.out.println("Enter the contact's Address: ");
+                                    String Address = keyboard.nextLine();
+                                    PhoneBook.SearchForAddress(ContactsList, Address);
+                                    break;
+                                case 5:
+                                    System.out.println("Enter the contact's Birthday date: ");
+                                    String Birthday = keyboard.nextLine();
+                                    PhoneBook.SearchForBirthday(ContactsList, Birthday);
+                                    break;
+                            }
+                        } //close case2
                 }
                 case 3:{
                     //delete a contact
