@@ -1,4 +1,5 @@
 package CSC212_PA;
+
 import java.util.Scanner;
 public class PhoneBook {
     public static Scanner keyboard = new Scanner(System.in);
@@ -186,6 +187,36 @@ public class PhoneBook {
             }
         }
 
+        //Futun
+        public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber) {
+        	//if the list is empty
+        	if (ContactsList.isEmpty()) {
+        		return false;
+        	}
+        	
+        	ContactsList.FindFirst();
+        	while(!ContactsList.last()) {
+        		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ){
+        			ContactsList.Remove();
+        			return true;
+        		}
+        		else
+        			ContactsList.FindNext();
+        	}//while stops here
+        	
+        	//checking the last element
+        	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ) {
+    			ContactsList.Remove();
+    			return true;
+        	}
+        	
+        	
+        	//all the list have been checked
+        	return false;
+        	
+        }
+        
+       
     
     //main method
     public static void main(String[] args) {
@@ -290,13 +321,15 @@ public class PhoneBook {
                 case 3:{
                     //delete a contact
                     System.out.print("Enter the contact's name or phone number");
+                 // remove garbage
+                    keyboard.nextLine();
                     String nameOrNumber = keyboard.nextLine();
                     //when the contact is deleted, the variable deleted will be true
-                    boolean deleted = ContactsList.deleteContact(nameOrNumber);
+                    boolean deleted = PhoneBook.deleteContact(ContactsList,nameOrNumber);
                     if (deleted == true) {
-                        System.out.print("\nThe contact is deleted successfully!");
+                        System.out.println("\nThe contact is deleted successfully!");
                     }else {
-                        System.out.print("\nThe contact is not found");
+                        System.out.println("\nThe contact is not found");
                     }
 
 
@@ -348,4 +381,3 @@ public class PhoneBook {
     }//end main
 
 }
-
