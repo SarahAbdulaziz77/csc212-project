@@ -88,39 +88,31 @@ public class LinkedList<T> {
    }
    
    
-   
+   //Futun
    public boolean deleteContact(String nameOrNumber) {
 	   //if the list is empty
 	   if (head == null) 
 		   return false;
+	
 	   
-	   //if there is one element in the list
-	   if (head.next == null) { 
-		     if (((Contact)head.data).getFullName().equals(nameOrNumber) || ((Contact)head.data).getNumber().equals(nameOrNumber)) {
-		     head = head.next; //or head = null;
-	    	 current = head;
-	    	 return true;
-	    	 }
-		     else
-		      return false;  
-		    }
-	   
-	   
-	   // if the contact is in head, and there are more than 1 element in the list
-	   if (((Contact)head.data).getFullName().equals(nameOrNumber) || ((Contact)head.data).getNumber().equals(nameOrNumber)) {
+	   // if the contact is in head
+	   if (((Contact)head.data).getFullName().equalsIgnoreCase(nameOrNumber) || ((Contact)head.data).getPhoneNumber().equalsIgnoreCase(nameOrNumber)) {
 	    	 head = head.next; 
 	    	 current = head;
 	    	 return true;
 	    	  } 
 	          else {
-	    		 
-	   
+	        	  
+	   //if there is one element in the list (head has been checked)		 
+	   if (head.next == null)
+		   return false;
+	        		  
 	   Node<T> p = head.next;
 	   Node<T> q = head;
 	   
 	   // checking the rest of the list, except for head (already checked)
 	   while(p.next!= null) {
-		   if (((Contact)p.data).getFullName().equals(nameOrNumber) || ((Contact)p.data).getNumber().equals(nameOrNumber)) {
+		   if (((Contact)p.data).getFullName().equalsIgnoreCase(nameOrNumber) || ((Contact)p.data).getPhoneNumber().equalsIgnoreCase(nameOrNumber)) {
 			   q.next = p.next;
 			   current = p.next;
 			   return true;
@@ -133,7 +125,7 @@ public class LinkedList<T> {
 	   }//while stops here
 		
 	       // checking the last element in the list
-		   if (((Contact)p.data).getFullName().equals(nameOrNumber) || ((Contact)p.data).getNumber().equals(nameOrNumber)) {
+		   if (((Contact)p.data).getFullName().equalsIgnoreCase(nameOrNumber) || ((Contact)p.data).getPhoneNumber().equalsIgnoreCase(nameOrNumber)) {
 			   q = q.next; //or q.next = null;
 			   current = head;
 			   return true;
