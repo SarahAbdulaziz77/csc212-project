@@ -36,10 +36,10 @@ public String getFullName() {
 public void setFullName(String fullname) {
 	this.fullname = fullname;
 }
-public String getNumber() {
+public String getPhoneNumber() {
 	return phone_number;
 }
-public void setNumber(String number) {
+public void setPhoneNumber(String number) {
 	this.phone_number = number;
 }
 public String getEmail() {
