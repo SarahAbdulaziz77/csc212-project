@@ -286,7 +286,7 @@ public class PhoneBook {
                             }
                             break;
                         } //close case2
-                }
+                
                 case 3:{
                     //delete a contact
                     System.out.print("Enter the contact's name or phone number");
