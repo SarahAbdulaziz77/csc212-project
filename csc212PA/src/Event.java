@@ -1,13 +1,15 @@
 package mashael;
 
+package mashael;
+
 public class Event {
 	private String title;
-	private Contact last_contactInvolved;
+	private String last_contactInvolved;
 	private String dateAndTime;
 	private String location;
 	private LinkedList<Contact> event_contacts = new LinkedList<Contact>();
 	
-	public Event(String title, Contact last_contactInvolved, String dateAndTime, String location) {
+	public Event(String title, String last_contactInvolved, String dateAndTime, String location) {
 		super();
 		this.title = title;
 		this.last_contactInvolved = last_contactInvolved;
@@ -23,11 +25,11 @@ public class Event {
 		this.title = title;
 	}
 
-	public Contact getLast_contactInvolved() {
+	public String getLast_contactInvolved() {
 		return last_contactInvolved;
 	}
 
-	public void setLast_contactInvolved(Contact last_contactInvolved) {
+	public void setLast_contactInvolved(String last_contactInvolved) {
 		this.last_contactInvolved = last_contactInvolved;
 	}
 
