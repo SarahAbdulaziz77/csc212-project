@@ -7,7 +7,7 @@ private String email;
 private String address;
 private String birthday;
 private String notes;
-private LinkedList<Event> events= new LinkedList<Event>();
+private LinkedList<Event> contact_events= new LinkedList<Event>();
 //Constructors
 public Contact() {
 	
@@ -50,6 +50,9 @@ public void setEmail(String email) {
 }
 public String getAddress() {
 	return address;
+}
+public LinkedList<Event> getContact_events() {
+	return contact_events;
 }
 public void setAddress(String address) {
 	this.address = address;
