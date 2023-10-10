@@ -222,6 +222,7 @@ public class PhoneBook {
     public static void main(String[] args) {
 
         LinkedList<Contact> ContactsList = new LinkedList<Contact>();
+        LinkedList<Event> Events = new LinkedList<Event>();
 
         int choice = 0;
         do {
