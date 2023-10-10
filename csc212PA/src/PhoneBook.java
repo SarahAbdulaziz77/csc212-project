@@ -40,11 +40,20 @@ public class PhoneBook {
     public static boolean addContact_Sorted(LinkedList<Contact> ContactsList,Contact new_contact) {
      
         if (!exist(ContactsList, new_contact)) {
+        	//if empty
             if(ContactsList.isEmpty()) {
             	ContactsList.insert(new_contact);
             	return true;
             }
-            // look for a suitable place
+            //if it should be at first
+            ContactsList.FindFirst();
+        	if((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) > 0 ) {
+    			Contact ctemp_larger=ContactsList.Retrieve();
+    			ContactsList.update(new_contact);
+    			ContactsList.insert(ctemp_larger);
+    			return true;
+    		}
+            // look for a suitable place if it was in middle
             ContactsList.FindFirst();
             while (!ContactsList.last()) {
                 if ((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) >= 0) {
@@ -102,7 +111,7 @@ public class PhoneBook {
         if(!EventsList.isEmpty()) {
         EventsList.FindFirst();
         while (!EventsList.last()) {
-            System.out.println(EventsList.Retrieve());
+            System.out.println(EventsList.Retrieve()+"\n");
             EventsList.FindNext();
         }
         // print last
@@ -227,40 +236,38 @@ public class PhoneBook {
         	return false;
         	
         }
-        public static boolean scheduleEvent(LinkedList<Event> EventsList,LinkedList<Contact> ContactsList,Event event) {
-        	//check if contact exist in phone book or return false SearchByName we need ,mycontacts list
-        	Contact contact = SearchForName(ContactsList,event.getLast_contactInvolved());
+
+        public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
+        	//check if contact exist in phone book or return false SearchByName we need ,my contacts list
+        	Contact contact = SearchForName(contactsList,event.getLast_contactInvolved());
         	if(contact==null) return false;
-        	//check if there is conflict in my events list time and the contact_name eventslist
-        	// if (isConflict)
-        	     // add event to this contact's eventList "here it doesn"t matter in order"
-        	      //contact.getContact_events().insert(event);
-        	      
-        	     // add event to my EventsList but here order matter
-        	char e1;
-        	EventsList.FindFirst();
-        	      if(!EventsList.isEmpty()) {
-        	    	  while(!EventsList.last()) {
-        	    		  e1 =(EventsList.Retrieve().getTitle()).charAt(0);
-        	    		  if(event.getTitle().charAt(0)>= e1) {
-        	    			  EventsList.insert(event);
-        	    		      return true;
-        	    		  }
-        	    		  else
-        	    			  EventsList.FindNext();
-        	    	  }
-        	      //insert last
-	    			  EventsList.insert(event);
-	    			  return true;
-                  }
-                 else {
-                	 //if my list was empty
-		           	  EventsList.insert(event);
-		         	  return true;
-                 }
+        	
+        	// If the eventsList is empty
+        	if ( eventsList.isEmpty() ) {
+        	    eventsList.insert(event);
+        	    return true;
+        	} 
+        	else {
+        		eventsList.FindFirst();
+            	//the new event should be inserted at the beginning
+            	if(event.getTitle().charAt(0) < eventsList.Retrieve().getTitle().charAt(0) ) {
+            			Event etemp_larger=eventsList.Retrieve();
+            			eventsList.update(event);
+            			eventsList.insert(etemp_larger);
+            			return true;
+            		}
+            	//in middle or last
+        	    eventsList.FindFirst();
+        	    // Iterate through the list to find the correct position to insert the event
+        	    while (!eventsList.last() && (event.getTitle().charAt(0) >= eventsList.Retrieve().getTitle().charAt(0))) {
+        	        eventsList.FindNext();
+        	    }
+        	    // Insert the event after the current element
+        	    // Add this inside your else block before the insertion
+        	    eventsList.insert(event);
+        	    return true;
+        	}
         }
-       
-    
     //main method
     public static void main(String[] args) {
 
@@ -269,7 +276,7 @@ public class PhoneBook {
 
         int choice = 0;
         do {
-            System.out.println("Welcome to the Linked Tree PhoneBook!");
+            System.out.println("\nWelcome to the Linked Tree PhoneBook!");
             System.out.println("Please choose an option:");
             System.out.println("1.Add a contact");
             System.out.println("2.Search for a contact");
@@ -280,7 +287,7 @@ public class PhoneBook {
             System.out.println("7.Print all events alphabetically");
             System.out.println("8.Exit\n");
             System.out.print("Enter your choice:");
-            try {
+        //    try {
             choice = keyboard.nextInt();
             switch(choice) {
                 case 1:{
@@ -409,6 +416,7 @@ public class PhoneBook {
                     break;
                 }
                 case 7:{
+                	System.out.println("\nAll Events list:\n");
                 	print_Events(EventsList);
                     break;
                 }
@@ -421,11 +429,11 @@ public class PhoneBook {
                     System.out.println("Incorrect number please choose from 1-8!\n");
                 }
             }//close switch
-            } catch(Exception e) {
+           /* } catch(Exception e) {
                 // Handle incorrect input
                 System.out.println("Incorrect input. Please try again.\n");
                 keyboard.next(); // Consume the invalid input
-            }
+            }*/
         }while(choice!=8);
         
 /*this is an extra print list test*/
@@ -450,3 +458,4 @@ public class PhoneBook {
     }//end main
 
 }
+
