@@ -56,38 +56,7 @@ public class LinkedList<T> {
     		  current=head;
     	  }
     	}
-   public void AddInOrder(T new_contact) {
-    Node<T> c = new Node<T>(new_contact);
-    Node<T> p = head;
-    Node<T> q = null;
 
-    // If the list is empty
-    if (head == null) {
-        head = current = c;
-        return;
-    }
-
-    // If the new contact should be at first
-    if (((Contact) new_contact).compareTo(((Contact) head.data).getFullName()) < 0) {
-        c.next = head;
-        head = c;
-        return;
-    }
-
-    // Find the suitable position to insert the new contact
-    while (p != null && ((Contact) new_contact).compareTo(((Contact) p.data).getFullName()) >= 0) {
-        q = p;
-        p = p.next;
-    }
-
-    // Insert the new contact at the appropriate position
-    q.next = c;
-    c.next = p;
-	   // is current after the inserted one?
-    current= c.next;
-   }
-   
-   
    //Futun
    public boolean deleteContact(String nameOrNumber) {
 	   //if the list is empty
