@@ -54,6 +54,10 @@ public String getAddress() {
 public LinkedList<Event> getContact_events() {
 	return contact_events;
 }
+
+public void setContact_events(LinkedList<Event> contact_events) {
+	this.contact_events = contact_events;
+}
 public void setAddress(String address) {
 	this.address = address;
 }
