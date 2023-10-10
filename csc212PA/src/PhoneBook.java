@@ -37,7 +37,7 @@ public class PhoneBook {
         return false;
     }
 //MASHAEL
-    public static boolean addInOrder(LinkedList<Contact> ContactsList,Contact new_contact) {
+    public static boolean addContact_Sorted(LinkedList<Contact> ContactsList,Contact new_contact) {
      
         if (!exist(ContactsList, new_contact)) {
             if(ContactsList.isEmpty()) {
@@ -98,6 +98,18 @@ public class PhoneBook {
                     System.out.println(matching_contacts.Retrieve());
             	    }
     }
+    public static void print_Events(LinkedList<Event> EventsList) {
+        if(!EventsList.isEmpty()) {
+        EventsList.FindFirst();
+        while (!EventsList.last()) {
+            System.out.println(EventsList.Retrieve());
+            EventsList.FindNext();
+        }
+        // print last
+        System.out.println(EventsList.Retrieve());
+    }
+    }
+  
 //SARAH
     public static Contact SearchForName(LinkedList<Contact> ContactsList, String name) {
             if (ContactsList.isEmpty()) {
@@ -215,14 +227,45 @@ public class PhoneBook {
         	return false;
         	
         }
-        
+        public static boolean scheduleEvent(LinkedList<Event> EventsList,LinkedList<Contact> ContactsList,Event event) {
+        	//check if contact exist in phone book or return false SearchByName we need ,mycontacts list
+        	Contact contact = SearchForName(ContactsList,event.getLast_contactInvolved());
+        	if(contact==null) return false;
+        	//check if there is conflict in my events list time and the contact_name eventslist
+        	// if (isConflict)
+        	     // add event to this contact's eventList "here it doesn"t matter in order"
+        	      //contact.getContact_events().insert(event);
+        	      
+        	     // add event to my EventsList but here order matter
+        	char e1;
+        	EventsList.FindFirst();
+        	      if(!EventsList.isEmpty()) {
+        	    	  while(!EventsList.last()) {
+        	    		  e1 =(EventsList.Retrieve().getTitle()).charAt(0);
+        	    		  if(event.getTitle().charAt(0)>= e1) {
+        	    			  EventsList.insert(event);
+        	    		      return true;
+        	    		  }
+        	    		  else
+        	    			  EventsList.FindNext();
+        	    	  }
+        	      //insert last
+	    			  EventsList.insert(event);
+	    			  return true;
+                  }
+                 else {
+                	 //if my list was empty
+		           	  EventsList.insert(event);
+		         	  return true;
+                 }
+        }
        
     
     //main method
     public static void main(String[] args) {
 
         LinkedList<Contact> ContactsList = new LinkedList<Contact>();
-        LinkedList<Event> Events = new LinkedList<Event>();
+        LinkedList<Event> EventsList = new LinkedList<Event>();
 
         int choice = 0;
         do {
@@ -261,7 +304,7 @@ public class PhoneBook {
                      String notes = keyboard.nextLine();
                      // create a contact
                      Contact new_contact = new Contact(name, phone_number, email, address, birthday, notes);
-                    if(addInOrder(ContactsList,new_contact) )
+                    if(addContact_Sorted(ContactsList,new_contact) )
                     	System.out.println("\nContact added successfully!\n");
                     else 
                     	System.out.println("\nContact already exists.\n");
@@ -337,7 +380,23 @@ public class PhoneBook {
                     break;
                 }
                 case 4:{
-
+                	System.out.print("\nEnter event title:");
+                    // remove garbage
+                    keyboard.nextLine();
+                    String title = keyboard.nextLine();
+                    System.out.print("Enter contact name:");
+                    String contact_name = keyboard.next();
+                    System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
+                    // remove garbage
+                    keyboard.nextLine();
+                    String dateAndTime = keyboard.nextLine();
+                    System.out.print("Enter event location:");
+                    String location = keyboard.nextLine();
+                   Event event= new Event(title,contact_name, dateAndTime, location);
+                   if( scheduleEvent(EventsList,ContactsList,event) )
+                   	System.out.println("\nEvent scheduled successfully!\n");
+                   else 
+                   	System.out.println("\nCouldnt schedule event already exist or conflict or contact not found.\n");
                     break;
                 }
                 case 5:{
@@ -350,7 +409,7 @@ public class PhoneBook {
                     break;
                 }
                 case 7:{
-
+                	print_Events(EventsList);
                     break;
                 }
                 case 8:{
@@ -378,6 +437,15 @@ public class PhoneBook {
         }
         // print last
         System.out.println(ContactsList.Retrieve());}
+        
+        if(!EventsList.isEmpty()) {
+        EventsList.FindFirst();
+        while (!EventsList.last()) {
+            System.out.println(EventsList.Retrieve());
+            EventsList.FindNext();
+        }
+        // print last
+        System.out.println(EventsList.Retrieve());}
         
     }//end main
 
