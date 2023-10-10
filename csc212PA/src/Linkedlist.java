@@ -56,7 +56,7 @@ public class LinkedList<T> {
     		  current=head;
     	  }
     	}
-
+  
    //Futun
    public boolean deleteContact(String nameOrNumber) {
 	   //if the list is empty
@@ -108,3 +108,4 @@ public class LinkedList<T> {
    
  
 }
+
