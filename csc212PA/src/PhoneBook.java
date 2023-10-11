@@ -1,4 +1,4 @@
-package CSC212_PA;
+
 
 import java.util.Scanner;
 public class PhoneBook {
@@ -209,17 +209,22 @@ public class PhoneBook {
         }
 
         //Futun
-        public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber) {
+        public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) {
         	//if the list is empty
         	if (ContactsList.isEmpty()) {
         		return false;
         	}
         	
+        	Contact temp = null;
+        	//indicates deleting the contact
+        	boolean flag = false;
         	ContactsList.FindFirst();
         	while(!ContactsList.last()) {
         		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ){
+        			temp = ContactsList.Retrieve();
         			ContactsList.Remove();
-        			return true;
+        			flag = true;
+        			
         		}
         		else
         			ContactsList.FindNext();
@@ -227,15 +232,81 @@ public class PhoneBook {
         	
         	//checking the last element
         	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ) {
-    			ContactsList.Remove();
-    			return true;
+        		temp = ContactsList.Retrieve();
+        		ContactsList.Remove();
+        		flag = true;
+    			
         	}
         	
+        	//if the contact is deleted from the contact list
+        	if (temp != null) {
+        		if (! Events.isEmpty()) {
+        		Events.FindFirst();
+        		while (! Events.last()) {
+        			//the contacts list inside this event
+        			LinkedList<Contact> eventContacts = Events.Retrieve().getEvent_contacts();
+        			//we dont need to check if the eventContacts is empty because having at least one contact is a must
+        			eventContacts.FindFirst();
+        			while(!eventContacts.last()) {
+        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
+        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
+        					//remove the contact from this event
+        					eventContacts.Remove();
+        					if (eventContacts.isEmpty())
+        						//if the contacts list of this event empty after the contact deleted, then delete the contact
+        						Events.Remove();	
+        				}
+        				eventContacts.FindNext();
+        			}//inner while
+        			
+        			//checking the last contact in the list
+        			//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
+    				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
+    					//remove the contact from this event
+    					eventContacts.Remove();
+    					if (eventContacts.isEmpty())
+    						//if the contacts list of this event empty after the contact deleted, then delete the contact
+    						Events.Remove();
+    				}
+    				
+        			Events.FindNext();
+        		}//outer while
+    				
+    				//checking the last event
+    				//the contacts list inside this event
+        			LinkedList<Contact> eventContacts = Events.Retrieve().getEvent_contacts();
+        			eventContacts.FindFirst();
+        			while(!eventContacts.last()) {
+        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
+        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
+        					//remove the contact from this event
+        					eventContacts.Remove();
+        					if (eventContacts.isEmpty())
+        						//if the contacts list of this event empty after the contact deleted, then delete the contact
+        						Events.Remove();
+        				}
+        				
+        				eventContacts.FindNext();
+        			}//end of while
+        			
+        			    //checking the last contact in the last event
+        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
+        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
+        					//remove the contact from this event
+        					eventContacts.Remove();
+        					if (eventContacts.isEmpty())
+        						//if the contacts list of this event empty after the contact deleted, then delete the contact
+        						Events.Remove();
+        				}
+    			
+        	}
+        	}
         	
         	//all the list have been checked
-        	return false;
+        	return flag;
         	
         }
+        	
 
         public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
         	//check if contact exist in phone book or return false SearchByName we need ,my contacts list
@@ -245,6 +316,7 @@ public class PhoneBook {
         	// If the eventsList is empty
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
+        	    event.getEvent_contacts().insert(contact); //f
         	    return true;
         	} 
         	else {
@@ -268,6 +340,50 @@ public class PhoneBook {
         	    return true;
         	}
         }
+        
+        //Futun
+        public static boolean isConflict(Event event, LinkedList<Event> Events) {
+        	//if the list is empty then there is no conflict
+        	if (Events.isEmpty()) {
+        		return false;
+        	}
+        	Events.FindFirst();
+        	while (! Events.last()) {
+        		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
+        			if( Events.Retrieve().getTitle().equals(event.getTitle())){
+        				//the printing will be inside the method to specify the conflict 
+        				System.out.println("Could not schedule, The event already exists!");
+        				return true;	
+        			}
+        			else {
+        				System.out.println("Could not schedule, There's a conflict!");
+        				return true;
+        			}
+        				
+        		}
+        		Events.FindNext();
+        	}//end of while
+        		
+        		//checking the last element
+        		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
+        			if( Events.Retrieve().getTitle().equals(event.getTitle())){
+        				System.out.println("Could not schedule, The event already exits!");
+        				return true;	
+        			}
+        			else {
+        				System.out.println("Could not schedule, There's a conflict!");
+        				return true;
+        			}
+        		
+        	}
+        		//all the list have been checked
+        		return false;
+        	
+        }
+        
+        
+        
+        
     //main method
     public static void main(String[] args) {
 
@@ -376,7 +492,7 @@ public class PhoneBook {
                     keyboard.nextLine();
                     String nameOrNumber = keyboard.nextLine();
                     //when the contact is deleted, the variable deleted will be true
-                    boolean deleted = PhoneBook.deleteContact(ContactsList,nameOrNumber);
+                    boolean deleted = PhoneBook.deleteContact(ContactsList,nameOrNumber,EventsList);
                     if (deleted == true) {
                         System.out.println("\nThe contact is deleted successfully!");
                     }else {
@@ -391,21 +507,27 @@ public class PhoneBook {
                     // remove garbage
                     keyboard.nextLine();
                     String title = keyboard.nextLine();
-                    System.out.print("Enter contact name:");
-                    String contact_name = keyboard.next();
-                    System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
-                    // remove garbage
-                    keyboard.nextLine();
+                    System.out.print("\nEnter contact name:");
+                    String contact_name = keyboard.nextLine();
+                    System.out.print("\nEnter event date and time(MM/DD/YYYY HH:MM):");
                     String dateAndTime = keyboard.nextLine();
-                    System.out.print("Enter event location:");
+                    System.out.print("\nEnter event location:");
                     String location = keyboard.nextLine();
-                   Event event= new Event(title,contact_name, dateAndTime, location);
-                   if( scheduleEvent(EventsList,ContactsList,event) )
-                   	System.out.println("\nEvent scheduled successfully!\n");
-                   else 
-                   	System.out.println("\nCouldnt schedule event already exist or conflict or contact not found.\n");
-                    break;
-                }
+                    Event event= new Event(title,contact_name, dateAndTime, location);
+                   
+                    //isConflict checks if the there's a conflict regarding if the event already exists or there's another event at the time of this event
+                    if(!(PhoneBook.isConflict(event,EventsList))) {
+                    	//scheduleEvent checks if the contact exists then adds the event
+                    	if( scheduleEvent(EventsList,ContactsList,event) )
+                    		System.out.println("\nEvent scheduled successfully!\n");
+                    	else
+                    		System.out.println("\nCouldnt schedule, contact not found.\n");
+                    }
+                    // if there is a conflict the method isConflict will explain the conflict with a print method
+                    
+                    	break;
+                    }
+                  
                 case 5:{
 
                     break;
@@ -458,4 +580,3 @@ public class PhoneBook {
     }//end main
 
 }
-
