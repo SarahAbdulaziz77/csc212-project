@@ -209,7 +209,7 @@ public class PhoneBook {
         }
 
 	//SearchEventByContactName method
-        public static Event SearchEByName (LinkedList<Event> Events, String name) {
+        public static Event SearchEbyName (LinkedList<Event> Events, String name) {
             if (Events.isEmpty()){
                 return null; }
             else {
@@ -228,7 +228,7 @@ public class PhoneBook {
         }
 
         //SearchEventByTitle method
-        public static Event SearchEByTitle (LinkedList<Event> Events, String title) {
+        public static Event SearchEbyTitle (LinkedList<Event> Events, String title) {
             if (Events.isEmpty()) {
                 return null;
             } else {
