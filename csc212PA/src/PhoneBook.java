@@ -467,6 +467,7 @@ public class PhoneBook {
                     	System.out.println("\nContact already exists.\n");
                     break;
                 }
+		//SARAH
                  case 2: {
                             System.out.println("Enter search criteria: ");
                             System.out.println("1.Name");
