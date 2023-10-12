@@ -351,15 +351,12 @@ public class PhoneBook {
         	while (! Events.last()) {
         		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
         			if( Events.Retrieve().getTitle().equals(event.getTitle())){
-        				//the printing will be inside the method to specify the conflict 
-        				System.out.println("Could not schedule, The event already exists!");
-        				return true;	
+        				//the event already exists so we will just add the contact in it
+        				return false;	
         			}
-        			else {
-        				System.out.println("Could not schedule, There's a conflict!");
+        			else 
         				return true;
-        			}
-        				
+	
         		}
         		Events.FindNext();
         	}//end of while
@@ -367,13 +364,11 @@ public class PhoneBook {
         		//checking the last element
         		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
         			if( Events.Retrieve().getTitle().equals(event.getTitle())){
-        				System.out.println("Could not schedule, The event already exits!");
-        				return true;	
+        				//the event already exists so we will just add the contact in it
+        				return false;	
         			}
-        			else {
-        				System.out.println("Could not schedule, There's a conflict!");
+        			else 
         				return true;
-        			}
         		
         	}
         		//all the list have been checked
@@ -507,11 +502,11 @@ public class PhoneBook {
                     // remove garbage
                     keyboard.nextLine();
                     String title = keyboard.nextLine();
-                    System.out.print("\nEnter contact name:");
+                    System.out.print("Enter contact name:");
                     String contact_name = keyboard.nextLine();
-                    System.out.print("\nEnter event date and time(MM/DD/YYYY HH:MM):");
+                    System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                     String dateAndTime = keyboard.nextLine();
-                    System.out.print("\nEnter event location:");
+                    System.out.print("Enter event location:");
                     String location = keyboard.nextLine();
                     Event event= new Event(title,contact_name, dateAndTime, location);
                    
@@ -522,7 +517,8 @@ public class PhoneBook {
                     		System.out.println("\nEvent scheduled successfully!\n");
                     	else
                     		System.out.println("\nCouldnt schedule, contact not found.\n");
-                    }
+                    }else
+                    	System.out.println("Couldnt schedule, There is a conflict.");
                     // if there is a conflict the method isConflict will explain the conflict with a print method
                     
                     	break;
