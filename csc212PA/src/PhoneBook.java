@@ -1,3 +1,5 @@
+package CSC212_PA;
+
 
 
 import java.util.Scanner;
@@ -413,6 +415,15 @@ public class PhoneBook {
         		//all the list have been checked
         		return false;
         	
+        }
+        
+      //Futun
+        public static void printEventDetails(Event event) { //event found! 
+            System.out.println("Event title: " + event.getTitle() );
+            System.out.println("Contact name: "+ event.getLast_contactInvolved() );
+            System.out.println("Event date and time: "+ event.getDateAndTime() );
+            System.out.println("Event location: "+ event.getLocation());
+            
         }
         
         
