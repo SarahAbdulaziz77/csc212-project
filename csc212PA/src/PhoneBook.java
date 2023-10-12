@@ -208,6 +208,45 @@ public class PhoneBook {
             }
         }
 
+	//SearchEventByContactName method
+        public static Event SearchEByName (LinkedList<Event> Events, String name) {
+            if (Events.isEmpty()){
+                return null; }
+            else {
+                Events.FindFirst();
+                while (!Events.last()) {
+                    if (Events.Retrieve().getLast_contactInvolved().equalsIgnoreCase(name))
+                        return Events.Retrieve();
+                    Events.FindNext();
+                }
+                if (Events.Retrieve().getLast_contactInvolved().equalsIgnoreCase(name))
+                        return Events.Retrieve();
+
+                        return null;
+                }
+
+        }
+
+        //SearchEventByTitle method
+        public static Event SearchEByTitle (LinkedList<Event> Events, String title) {
+            if (Events.isEmpty()) {
+                return null;
+            } else {
+                Events.FindFirst();
+                while (!Events.last()) {
+                    if (Events.Retrieve().getTitle().equalsIgnoreCase(title))
+                        return Events.Retrieve();
+                    Events.FindNext();
+                }
+                if (Events.Retrieve().getTitle().equalsIgnoreCase(title))
+                    return Events.Retrieve();
+
+                    return null;
+
+
+            }
+        }
+
         //Futun
         public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) {
         	//if the list is empty
