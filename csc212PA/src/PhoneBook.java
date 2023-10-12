@@ -72,7 +72,7 @@ public class PhoneBook {
         }
     }
 //MASHAEL
-    public static void printByFirstName(LinkedList<Contact> ContactsList) {
+    public static void printEventsByFirstName(LinkedList<Contact> ContactsList) {
     	LinkedList<Contact> matching_contacts =new LinkedList<Contact>();
     	String contact_fullName;
         System.out.print("\nEnter the first name:");
