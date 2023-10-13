@@ -1,12 +1,11 @@
-package CSC212_PA;
-
-
-
+package mashael;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class PhoneBook {
     public static Scanner keyboard = new Scanner(System.in);
 //phone book methods for interacting with contacts list(when adding,searching,deleting)
 //MASHAEL
+    //this method checks if the contact already exists by its unique name or number.
     public static boolean exist(LinkedList<Contact> ContactsList, Contact new_contact) {
     	if(ContactsList.isEmpty())return false;
     	
@@ -23,18 +22,15 @@ public class PhoneBook {
             if (FullName1.equals(FullName2) || Number1.equals(Number2)) {
                 return true;
             }
-
-            ContactsList.FindNext(); // Move to the next element in the list
+            ContactsList.FindNext(); // if not found Move to the next element in the list
         }
         
         // Check the last element outside the loop
         FullName1 = (ContactsList.Retrieve()).getFullName();
         Number1 = (ContactsList.Retrieve()).getPhoneNumber();
-
         if (FullName1.equals(FullName2) || Number1.equals(Number2)) {
             return true;
         }
-
         // If not found
         return false;
     }
@@ -50,19 +46,28 @@ public class PhoneBook {
             //if it should be at first
             ContactsList.FindFirst();
         	if((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) > 0 ) {
-    			Contact ctemp_larger=ContactsList.Retrieve();
+    			Contact moved_contact=ContactsList.Retrieve();
     			ContactsList.update(new_contact);
-    			ContactsList.insert(ctemp_larger);
+    			ContactsList.insert(moved_contact);
     			return true;
     		}
             // look for a suitable place if it was in middle
             ContactsList.FindFirst();
             while (!ContactsList.last()) {
-                if ((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) >= 0) {
-                    ContactsList.insert(new_contact);
+                if ((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) > 0) {
+                	Contact moved_contact=ContactsList.Retrieve();
+        			ContactsList.update(new_contact);
+        			ContactsList.insert(moved_contact);
                     return true;
                 }
                 ContactsList.FindNext();
+            }
+            //check last to see if it should be inserted before it
+            if ((ContactsList.Retrieve()).compareTo(new_contact.getFullName()) > 0) {
+            	Contact moved_contact=ContactsList.Retrieve();
+    			ContactsList.update(new_contact);
+    			ContactsList.insert(moved_contact);
+                return true;
             }
             // add last if it's the biggest value
             ContactsList.insert(new_contact);
@@ -72,7 +77,7 @@ public class PhoneBook {
         }
     }
 //MASHAEL
-    public static void printEventsByFirstName(LinkedList<Contact> ContactsList) {
+    public static void printContactsByFirstName(LinkedList<Contact> ContactsList) {
     	LinkedList<Contact> matching_contacts =new LinkedList<Contact>();
     	String contact_fullName;
         System.out.print("\nEnter the first name:");
@@ -350,7 +355,7 @@ public class PhoneBook {
         	
 
         public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
-        	//check if contact exist in phone book or return false SearchByName we need ,my contacts list
+        	//check if contact exist in phone book 
         	Contact contact = SearchForName(contactsList,event.getLast_contactInvolved());
         	if(contact==null) return false;
         	
@@ -364,21 +369,33 @@ public class PhoneBook {
         		eventsList.FindFirst();
             	//the new event should be inserted at the beginning
             	if(event.getTitle().charAt(0) < eventsList.Retrieve().getTitle().charAt(0) ) {
-            			Event etemp_larger=eventsList.Retrieve();
+            			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
-            			eventsList.insert(etemp_larger);
+            			eventsList.insert(moved_event);
             			return true;
             		}
-            	//in middle or last
+            	
         	    eventsList.FindFirst();
-        	    // Iterate through the list to find the correct position to insert the event
-        	    while (!eventsList.last() && (event.getTitle().charAt(0) >= eventsList.Retrieve().getTitle().charAt(0))) {
+        	    // Iterate through the list to find the correct position to insert the event in middle
+        	    while (!eventsList.last()) {
+        	    	if(eventsList.Retrieve().getTitle().charAt(0)>event.getTitle().charAt(0)) {
+            			Event moved_event=eventsList.Retrieve();
+            			eventsList.update(event);
+            			eventsList.insert(moved_event);
+                	    return true;
+        	    	}		
         	        eventsList.FindNext();
-        	    }
-        	    // Insert the event after the current element
-        	    // Add this inside your else block before the insertion
-        	    eventsList.insert(event);
-        	    return true;
+        	    } 
+        	    //check last to insert before it
+        	    if(eventsList.Retrieve().getTitle().charAt(0)>event.getTitle().charAt(0)) {
+        			Event moved_event=eventsList.Retrieve();
+        			eventsList.update(event);
+        			eventsList.insert(moved_event);
+            	    return true;
+            	}	
+        	    //if it should be last
+    			eventsList.insert(event);
+    			return true;
         	}
         }
         
@@ -448,7 +465,7 @@ public class PhoneBook {
             System.out.println("7.Print all events alphabetically");
             System.out.println("8.Exit\n");
             System.out.print("Enter your choice:");
-        //    try {
+            try {
             choice = keyboard.nextInt();
             switch(choice) {
                 case 1:{
@@ -581,7 +598,7 @@ public class PhoneBook {
                 }
                 case 6:{
                     //Print contacts by first name
-                	printByFirstName(ContactsList);
+                	printContactsByFirstName(ContactsList);
                     break;
                 }
                 case 7:{
@@ -595,17 +612,17 @@ public class PhoneBook {
                 }
                 default:
                 {
-                    System.out.println("Incorrect number please choose from 1-8!\n");
+                    System.out.println("Incorrect number please try again and choose from 1-8!\n");
                 }
             }//close switch
-           /* } catch(Exception e) {
+            } catch(InputMismatchException e) {
                 // Handle incorrect input
-                System.out.println("Incorrect input. Please try again.\n");
+                System.out.println("Invalid input please try again and enter a number from 1-8.\n");
                 keyboard.next(); // Consume the invalid input
-            }*/
+            }
         }while(choice!=8);
         
-/*this is an extra print list test*/
+/*this is an extra print list test
         if(!ContactsList.isEmpty()) {
         ContactsList.FindFirst();
         while (!ContactsList.last()) {
@@ -622,7 +639,7 @@ public class PhoneBook {
             EventsList.FindNext();
         }
         // print last
-        System.out.println(EventsList.Retrieve());}
+        System.out.println(EventsList.Retrieve());}*/
         
     }//end main
 
