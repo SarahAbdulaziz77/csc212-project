@@ -29,6 +29,17 @@ public Contact(String fullname, String phone_number, String email, String addres
 	this.birthday = birthday;
 	this.notes = notes;
 }
+	 public void printContact(){
+        System.out.println("Name: " + fullname);
+        System.out.println("Phone Number: " + phone_number);
+        System.out.println("Email Address: " + email);
+        System.out.println("Address: " + address);
+        System.out.println("Birthday: " + birthday);
+        System.out.println("Notes: " + notes);
+
+
+
+    }
 //setters and getters
 public String getFullName() {
 	return fullname;
