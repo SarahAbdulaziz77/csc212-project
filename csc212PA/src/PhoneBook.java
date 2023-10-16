@@ -73,7 +73,8 @@ public class PhoneBook {
             // add last if it's the biggest value
             ContactsList.insert(new_contact);
             return true;
-        } else {
+        } 
+	else {
             return false;
         }
     }
