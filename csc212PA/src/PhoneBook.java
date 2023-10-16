@@ -117,6 +117,7 @@ public class PhoneBook {
             	    }
     }
     public static void print_Events(LinkedList<Event> EventsList) {
+	    //events were inserted by alphabetical order
         if(!EventsList.isEmpty()) {
         EventsList.FindFirst();
         while (!EventsList.last()) {
