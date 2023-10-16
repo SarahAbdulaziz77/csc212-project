@@ -402,6 +402,7 @@ public class PhoneBook {
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
         	    event.getEvent_contacts().insert(contact); //f
+        	    event.setLast_contactInvolved(contact.getFullName());
         	    return true;
         	} 
         	else {
@@ -411,6 +412,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
+                	    event.setLast_contactInvolved(contact.getFullName());
             			return true;
             		}
             	
@@ -421,6 +423,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
+                	    event.setLast_contactInvolved(contact.getFullName());
                 	    return true;
         	    	}		
         	        eventsList.FindNext();
@@ -430,10 +433,12 @@ public class PhoneBook {
         			Event moved_event=eventsList.Retrieve();
         			eventsList.update(event);
         			eventsList.insert(moved_event);
+            	    event.setLast_contactInvolved(contact.getFullName());
             	    return true;
             	}	
         	    //if it should be last
     			eventsList.insert(event);
+        	    event.setLast_contactInvolved(contact.getFullName());
     			return true;
         	}
         }
