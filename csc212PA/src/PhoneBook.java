@@ -665,10 +665,45 @@ public class PhoneBook {
                     	break;
                     }
                   
-                case 5:{
+                 case 5: {
+                            int SearchChoice2=0;
+                            do {
+                                System.out.println("Enter search criteria: ");
+                                System.out.println("1.Contact name");
+                                System.out.println("2.Event title");
+                                SearchChoice2 = keyboard.nextInt();
+                                switch (SearchChoice2) {
+                                    case 1:
+                                        System.out.println("\nEnter the contact name: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String ContactName = keyboard.nextLine();
+                                        Event Eventfound = SearchEbyName(EventsList, ContactName);
+                                        if (Eventfound == null) {
+                                            System.out.println(" Sorry Event not found. ");
+                                        } else {
+                                            printEventDetails(Eventfound);
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("\nEnter the event title: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String EventTitle = keyboard.nextLine();
+                                        Eventfound = SearchEbyTitle(EventsList, EventTitle);
+                                        if (Eventfound == null) {
+                                            System.out.println(" Sorry Event not found. ");
+                                        } else {
+                                            printEventDetails(Eventfound);
+                                        }
+                                    default:
+                                        System.out.println("Incorrect number please choose from 1-2!\n");
 
-                    break;
-                }
+                                }//close inner switch
+                            }while (SearchChoice2 <=0 || SearchChoice2>2);
+
+                            break;
+                        } //close case 5
                 case 6:{
                     //Print contacts by first name
                 	printContactsByFirstName(ContactsList);
