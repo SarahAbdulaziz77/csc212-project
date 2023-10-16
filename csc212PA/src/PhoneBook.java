@@ -272,6 +272,23 @@ public class PhoneBook {
 
             }
         }
+	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
+            if (ContactsList.isEmpty()){
+                System.out.println("Sorry, the list is empty");
+            }
+            else {
+                ContactsList.FindFirst();
+                while (!ContactsList.last()){
+                    ContactsList.Retrieve().printContact();
+                    System.out.println("\n");
+                    ContactsList.FindNext();
+                }
+                ContactsList.Retrieve().printContact();
+                System.out.println("\n");
+
+            }
+
+        }
 
         //Futun
         public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) {
