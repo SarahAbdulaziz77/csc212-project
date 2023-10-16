@@ -20,7 +20,7 @@ public class PhoneBook {
             FullName1 = (ContactsList.Retrieve()).getFullName();
             Number1 = (ContactsList.Retrieve()).getPhoneNumber();
 
-            if (FullName1.equals(FullName2) || Number1.equals(Number2)) {
+            if (FullName1.equalsIgnoreCase(FullName2) || Number1.equals(Number2)) {
                 return true;
             }
             ContactsList.FindNext(); // if not found Move to the next element in the list
@@ -29,7 +29,7 @@ public class PhoneBook {
         // Check the last element outside the loop
         FullName1 = (ContactsList.Retrieve()).getFullName();
         Number1 = (ContactsList.Retrieve()).getPhoneNumber();
-        if (FullName1.equals(FullName2) || Number1.equals(Number2)) {
+        if (FullName1.equalsIgnoreCase(FullName2) || Number1.equals(Number2)) {
             return true;
         }
         // If not found
