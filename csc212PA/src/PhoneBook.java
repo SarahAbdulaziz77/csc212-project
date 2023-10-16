@@ -401,7 +401,7 @@ public class PhoneBook {
         	// If the eventsList is empty
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
-        	    event.getEvent_contacts().insert(contact); //f
+        	    event.getEvent_contacts().insert(contact); 
         	    event.setLast_contactInvolved(contact.getFullName());
         	    return true;
         	} 
@@ -412,6 +412,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
+                	    event.getEvent_contacts().insert(contact); 
                 	    event.setLast_contactInvolved(contact.getFullName());
             			return true;
             		}
@@ -423,6 +424,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
+                	    event.getEvent_contacts().insert(contact); 
                 	    event.setLast_contactInvolved(contact.getFullName());
                 	    return true;
         	    	}		
@@ -433,16 +435,17 @@ public class PhoneBook {
         			Event moved_event=eventsList.Retrieve();
         			eventsList.update(event);
         			eventsList.insert(moved_event);
+            	    event.getEvent_contacts().insert(contact); 
             	    event.setLast_contactInvolved(contact.getFullName());
             	    return true;
             	}	
         	    //if it should be last
     			eventsList.insert(event);
         	    event.setLast_contactInvolved(contact.getFullName());
+        	    event.getEvent_contacts().insert(contact); 
     			return true;
         	}
         }
-        
         //Futun
         public static boolean isConflict(Event event, LinkedList<Event> Events) {
         	//if the list is empty then there is no conflict
