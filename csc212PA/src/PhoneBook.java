@@ -93,14 +93,14 @@ public class PhoneBook {
         ContactsList.FindFirst();
         while(!ContactsList.last()) {
              contact_fullName= ContactsList.Retrieve().getFullName();
-            if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equals(firstName))
+            if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equalsIgnoreCase(firstName))
                 matching_contacts.insert( ContactsList.Retrieve() );
             ContactsList.FindNext();
             }
         
             // check last element
             contact_fullName= ContactsList.Retrieve().getFullName();
-            if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equals(firstName)) 
+            if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equalsIgnoreCase(firstName)) 
                 matching_contacts.insert( ContactsList.Retrieve() );
             
             if(matching_contacts.isEmpty())
