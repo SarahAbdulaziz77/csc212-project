@@ -254,6 +254,25 @@ public class PhoneBook {
             }
         }
 
+	 public static void ContactsShareEvent (LinkedList<Event> eventsList) {
+            System.out.println("\nEnter the Event name: ");
+             String EventTitle = keyboard.nextLine();
+            if (eventsList.isEmpty()) {
+                System.out.println("\nNo Events found ");
+            }
+            else {
+                eventsList.FindFirst();
+                while (!eventsList.last()) {
+                    if (eventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
+                        System.out.println(eventsList.Retrieve().getLast_contactInvolved());
+                    eventsList.FindNext();
+                }
+                if (eventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
+                    System.out.println(eventsList.Retrieve().getLast_contactInvolved());
+
+            }
+        }
+
         //Futun
         public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) {
         	//if the list is empty
