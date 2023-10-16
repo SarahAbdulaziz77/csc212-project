@@ -533,58 +533,93 @@ public class PhoneBook {
                 }
 		//SARAH
                  case 2: {
+                            LinkedList<Contact> Contactfound = new LinkedList<Contact>();
+                            int SearchChoice=0;
+                            do {
 
-                               System.out.println("Enter search criteria: ");
-                               System.out.println("1.Name");
-                               System.out.println("2.Phone Number");
-                               System.out.println("3.Email Address ");
-                               System.out.println("4.Address ");
-                               System.out.println("5.Birthday");
-                               System.out.println("Enter your choice: ");
-                               int SearchChoice = keyboard.nextInt();
-                              
-                               switch (SearchChoice) {
-                                   case 1:
-                                       System.out.println("Enter the contact's name: ");
-                                       //remove garbage
-                                       keyboard.nextLine();
-                                       String name = keyboard.nextLine();
-                                       System.out.println(SearchForName(ContactsList, name));
-                                       break;
-                                   case 2:
-                                       System.out.println("Enter the contact's Phone Number: ");
-                                       //remove garbage
-                                       keyboard.nextLine();
-                                       String PhoneNumber = keyboard.nextLine();
-                                       System.out.println(SearchForPhoneNumber(ContactsList, PhoneNumber));
-                                       break;
-                                   case 3:
-                                       System.out.println("Enter the contact's Email Address: ");
-                                       //remove garbage
-                                       keyboard.nextLine();
-                                       String Email = keyboard.nextLine();
-                                       System.out.println(SearchForEmail(ContactsList, Email));
-                                       break;
-                                   case 4:
-                                       System.out.println("Enter the contact's Address: ");
-                                       //remove garbage
-                                       keyboard.nextLine();
-                                       String Address = keyboard.nextLine();
-                                       System.out.println(SearchForAddress(ContactsList, Address);
-                                       break;
-                                   case 5:
-                                       System.out.println("Enter the contact's Birthday date: ");
-                                       //remove garbage
-                                       keyboard.nextLine();
-                                       String Birthday = keyboard.nextLine();
-                                       System.out.println(SearchForBirthday(ContactsList, Birthday));
-                                       break;
-                                   default:
-                                       System.out.println("Incorrect number please choose from 1-5!\n");
-                                       break;
-                               }
-                               break;
-                           } //close case2
+                                System.out.println("Enter search criteria: ");
+                                System.out.println("1.Name");
+                                System.out.println("2.Phone Number");
+                                System.out.println("3.Email Address ");
+                                System.out.println("4.Address ");
+                                System.out.println("5.Birthday");
+                                System.out.println("Enter your choice: ");
+                                SearchChoice = keyboard.nextInt();
+                                switch (SearchChoice) {
+                                    case 1:
+                                        System.out.println("\nEnter the contact's name: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String name = keyboard.nextLine();
+                                        Contact Namefound = SearchForName(ContactsList, name);
+                                        if (Namefound==null){
+                                            System.out.println("Sorry,this Contact name is not exist!");
+                                        }
+                                        else {
+                                            Namefound.printContact();
+                                        }
+                                        break;
+                                    case 2:
+                                        System.out.println("\nEnter the contact's Phone Number: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String PhoneNumber = keyboard.nextLine();
+                                        Contact Phonefound= SearchForPhoneNumber(ContactsList, PhoneNumber);
+                                        if (Phonefound==null){
+                                            System.out.println("Sorry,this phone number is not exist! ");
+                                        }
+                                        else {
+                                            Phonefound.printContact();
+                                        }
+
+                                        break;
+                                    case 3:
+                                        System.out.println("\nEnter the contact's Email Address: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String Email = keyboard.nextLine();
+                                            Contactfound = SearchForEmail(ContactsList, Email);
+                                            if (Contactfound.isEmpty()){
+                                                System.out.println("Contact is NOT found ");
+                                            }
+                                            else {
+                                                PrintListForAllContacts(Contactfound);
+                                            }
+                                        break;
+                                    case 4:
+                                        System.out.println("\nEnter the contact's Address: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String Address = keyboard.nextLine();
+                                        Contactfound = SearchForAddress(ContactsList, Address);
+                                        if (Contactfound.isEmpty()){
+                                            System.out.println("Contact is NOT found ");
+                                        }
+                                        else {
+                                            PrintListForAllContacts(Contactfound);
+                                        }
+
+                                        break;
+                                    case 5:
+                                        System.out.println("\nEnter the contact's Birthday date: ");
+                                        //remove garbage
+                                        keyboard.nextLine();
+                                        String Birthday = keyboard.nextLine();
+                                        Contactfound = SearchForBirthday(ContactsList, Birthday);
+                                        if (Contactfound.isEmpty()){
+                                            System.out.println("Contact is NOT found ");
+                                        }
+                                        else {
+                                            PrintListForAllContacts(Contactfound);
+                                        }
+                                        break;
+                                    default:
+                                        System.out.println("Incorrect number please choose from 1-5!\n");
+                                } //close inner switch
+                            } while (SearchChoice <=0 || SearchChoice>6);
+                            break;
+                        }// close case2
+
                 
                 case 3:{
                     //delete a contact
