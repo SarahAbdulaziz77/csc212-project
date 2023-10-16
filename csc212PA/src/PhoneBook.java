@@ -7,7 +7,8 @@ public class PhoneBook {
 //MASHAEL
     //this method checks if the contact already exists by its unique name or number.
     public static boolean exist(LinkedList<Contact> ContactsList, Contact new_contact) {
-    	if(ContactsList.isEmpty())return false;
+    	if(ContactsList.isEmpty())
+		return false;
     	
         String FullName1,Number1;  
         String FullName2 = new_contact.getFullName();
