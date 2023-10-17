@@ -227,11 +227,11 @@ public class PhoneBook {
             else {
                 Events.FindFirst();
                 while (!Events.last()) {
-                    if (Events.Retrieve().getLast_contactInvolved().equalsIgnoreCase(name))
+                    if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
                         return Events.Retrieve();
                     Events.FindNext();
                 }
-                if (Events.Retrieve().getLast_contactInvolved().equalsIgnoreCase(name))
+                if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
                         return Events.Retrieve();
 
                         return null;
@@ -259,24 +259,20 @@ public class PhoneBook {
             }
         }
 
-	 public static void ContactsShareEvent (LinkedList<Event> eventsList) {
-            System.out.println("\nEnter the Event name: ");
-             String EventTitle = keyboard.nextLine();
-            if (eventsList.isEmpty()) {
-                System.out.println("\nNo Events found ");
-            }
-            else {
-                eventsList.FindFirst();
-                while (!eventsList.last()) {
-                    if (eventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
-                        System.out.println(eventsList.Retrieve().getLast_contactInvolved());
-                    eventsList.FindNext();
-                }
-                if (eventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
-                    System.out.println(eventsList.Retrieve().getLast_contactInvolved());
-
-            }
+	 public static void ContactsShareEvent (Event event) {
+		 LinkedList<Contact> ContactsList = event.getEvent_contacts();
+		 if (!ContactsList.isEmpty()) {
+			 ContactsList.FindFirst();
+			 while(!ContactsList.last()) {
+				 System.out.println("contact name : " + ContactsList.Retrieve().getFullName())  ;
+				 ContactsList.FindNext();
+			 }
+			 System.out.println("contact name : " + ContactsList.Retrieve().getFullName())  ;
+		 }
+           
         }
+	 
+	 
 	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
             if (ContactsList.isEmpty()){
                 System.out.println("Sorry, the list is empty");
@@ -298,58 +294,29 @@ public class PhoneBook {
 	 
 	 
         //Futun
-	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) { 
-		 Contact contact = SearchForName(ContactsList,nameOrNumber);
-		 LinkedList<Event> mutualEvents = contact.getContact_events();
+	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String name, LinkedList<Event> Events) { 
+		
 		 
+		 //deleting the contacts events
+		 if(!Events.isEmpty()) {
+			 Events.FindFirst();
+			 while(!Events.isEmpty() && !Events.last()) {
+				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name)) 
+					 Events.Remove();
+					 
+				 if(!Events.isEmpty()){
+					 Events.FindNext();
+				 }else
+					 break;
+					 
+				 }
+			     //last event
+				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
+					 Events.Remove();
+					
+			 }
 		 
-		 if((! Events.isEmpty()) && (!mutualEvents.isEmpty())) {
-  			Events.FindFirst();
-  			while(!Events.last()) {
-      			
-  				mutualEvents.FindFirst();
-  				while(!mutualEvents.last()) {
-  					if (Events.Retrieve() == mutualEvents.Retrieve()) {
-  						Events.Remove();
-  						//remove also from contacts list events
-  						break;
-  					}
-  					 mutualEvents.FindNext();
-  				}//inner while
-  				
-  				//last mutual event
-  				if( !Events.isEmpty() ) {
-  				if (Events.Retrieve() == mutualEvents.Retrieve())
-						Events.Remove();
-  				}
-  				
-  				Events.FindNext();
-  			}//outer while
-  			
-  			//last event
-  			while(!Events.last()) {
-      			mutualEvents.FindFirst();
-  				while(!mutualEvents.last()) {
-  					if (Events.Retrieve() == mutualEvents.Retrieve()) {
-  						Events.Remove();
-  						break;
-  					}
-  						
-  					 mutualEvents.FindNext();
-  				}//inner while
-  				
-  				//last mutual event
-  				if(!Events.isEmpty() ) {
-  				if (Events == mutualEvents)
-						Events.Remove();
-  				}
-  		     }
-  		}
-  
-  	
-		 
-		 
-		 
+		//deleting the contact from comtact list
      	//if the list is empty
      	if (ContactsList.isEmpty()) {
      		return false;
@@ -359,7 +326,7 @@ public class PhoneBook {
      	boolean flag = false;
      	ContactsList.FindFirst();
      	while(!ContactsList.last()) {
-     		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ){
+     		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) ){
      			ContactsList.Remove();
      			flag = true;
      			
@@ -369,7 +336,7 @@ public class PhoneBook {
      	}//while stops here
      	
      	//checking the last element
-     	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ) {
+     	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) ) {
      		ContactsList.Remove();
      		flag = true;
  			
@@ -381,13 +348,13 @@ public class PhoneBook {
 
         public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
         	//check if contact exist in phone book 
-        	Contact contact = SearchForName(contactsList,event.getLast_contactInvolved());
+        	Contact contact = SearchForName(contactsList,event.getContact_name());
         	if(contact==null) return false;
         	
         	Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()) ;
         	if( existingEvent !=null ) {
         		existingEvent.getEvent_contacts().insert(contact); 
-        	    existingEvent.setLast_contactInvolved(contact.getFullName());
+        	    existingEvent.setContact_name(contact.getFullName());
         	    contact.getContact_events().insert(existingEvent);
         	    return true;
         	}
@@ -398,7 +365,7 @@ public class PhoneBook {
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
         	    event.getEvent_contacts().insert(contact); 
-        	    event.setLast_contactInvolved(contact.getFullName());
+        	    event.setContact_name(contact.getFullName());
         	    contact.getContact_events().insert(event);
         	    return true;
         	} 
@@ -410,7 +377,7 @@ public class PhoneBook {
             			eventsList.update(event);
             			eventsList.insert(moved_event);
                 	    event.getEvent_contacts().insert(contact); 
-                	    event.setLast_contactInvolved(contact.getFullName());
+                	    event.setContact_name(contact.getFullName());
                 	    contact.getContact_events().insert(event);
             			return true;
             		}
@@ -423,7 +390,7 @@ public class PhoneBook {
             			eventsList.update(event);
             			eventsList.insert(moved_event);
                 	    event.getEvent_contacts().insert(contact); 
-                	    event.setLast_contactInvolved(contact.getFullName());
+                	    event.setContact_name(contact.getFullName());
                 	    contact.getContact_events().insert(event);
                 	    return true;
         	    	}		
@@ -435,13 +402,13 @@ public class PhoneBook {
         			eventsList.update(event);
         			eventsList.insert(moved_event);
             	    event.getEvent_contacts().insert(contact); 
-            	    event.setLast_contactInvolved(contact.getFullName());
+            	    event.setContact_name(contact.getFullName());
             	    contact.getContact_events().insert(event);
             	    return true;
             	}	
         	    //if it should be last
     			eventsList.insert(event);
-        	    event.setLast_contactInvolved(contact.getFullName());
+    			event.setContact_name(contact.getFullName());
         	    event.getEvent_contacts().insert(contact); 
         	    contact.getContact_events().insert(event);
     			return true;
@@ -485,10 +452,9 @@ public class PhoneBook {
       //Futun
         public static void printEventDetails(Event event) { //event found! 
             System.out.println("Event title: " + event.getTitle() );
-            System.out.println("Contact name: "+ event.getLast_contactInvolved() );
+            System.out.println("Contact name: "+ event.getContact_name() );
             System.out.println("Event date and time: "+ event.getDateAndTime() );
-            System.out.println("Event location: "+ event.getLocation());
-            
+            System.out.println("Event location: "+ event.getLocation()); 
         }
         
         
@@ -637,7 +603,7 @@ public class PhoneBook {
                 
                 case 3:{
                     //delete a contact
-                    System.out.print("Enter the contact's name or phone number");
+                    System.out.print("Enter the contact's name: ");
                  // remove garbage
                     keyboard.nextLine();
                     String nameOrNumber = keyboard.nextLine();
