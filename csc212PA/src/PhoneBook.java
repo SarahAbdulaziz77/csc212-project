@@ -291,60 +291,63 @@ public class PhoneBook {
 
         }
 
-	 
-	 
         //Futun
-	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String name, LinkedList<Event> Events) { 
-		
-		 
-		 //deleting the contacts events
+	 public static void deleteMatchingContactEventsForEventsList(String name, LinkedList<Event> Events) {
+		 if(Events.isEmpty()) {
+			 return;
+		 }
+		 //deleting the events that were hold by that contact
 		 if(!Events.isEmpty()) {
 			 Events.FindFirst();
 			 while(!Events.isEmpty() && !Events.last()) {
-				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name)) 
+				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name)) {
 					 Events.Remove();
-					 
-				 if(!Events.isEmpty()){
+					 return;
+				 }
+                 //no matching found continue
 					 Events.FindNext();
-				 }else
-					 break;
-					 
 				 }
 			     //last event
-				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
+				 if (!Events.isEmpty() && Events.Retrieve().getContact_name().equalsIgnoreCase(name)) {
 					 Events.Remove();
-					
-			 }
-		 
-		//deleting the contact from comtact list
+					 return;			 
+				 }
+	 
+	 }
+	 }//end method
+	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String name, LinkedList<Event> Events) { 
+		//deleting the contact from contact list
      	//if the list is empty
-     	if (ContactsList.isEmpty()) {
+     	if(ContactsList.isEmpty()) {
      		return false;
      	}
      	
-     	//indicates deleting the contact
-     	boolean flag = false;
+     	//boolean flag = false;
      	ContactsList.FindFirst();
      	while(!ContactsList.last()) {
-     		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) ){
+     		if( ContactsList.Retrieve().getFullName().equalsIgnoreCase(name) ){
+     			//delete all events from events list of that contact that he is invloved in
+     			deleteMatchingContactEventsForEventsList(name,Events);
+     			//now we remove the contact
      			ContactsList.Remove();
-     			flag = true;
-     			
+     			return true;
      		}
-     		
+     		//not found move
      			ContactsList.FindNext();
      	}//while stops here
      	
      	//checking the last element
      	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) ) {
+ 			//delete all events from events list of that contact that he is invloved in
+     		deleteMatchingContactEventsForEventsList(name,Events);
+ 			//now we remove the contact
      		ContactsList.Remove();
-     		flag = true;
- 			
+ 			return true; 			
      	}
-     	return flag;
+     	else {
+     	    return false;
+     	}
 	 }
-
-        	
 
         public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
         	//check if contact exist in phone book 
@@ -710,7 +713,7 @@ public class PhoneBook {
             }
         }while(choice!=8);
         
-/*this is an extra print list test
+//this is an extra print contact list test
         if(!ContactsList.isEmpty()) {
         ContactsList.FindFirst();
         while (!ContactsList.last()) {
@@ -727,7 +730,7 @@ public class PhoneBook {
             EventsList.FindNext();
         }
         // print last
-        System.out.println(EventsList.Retrieve());}*/
+        System.out.println(EventsList.Retrieve());}
         
     }//end main
 
