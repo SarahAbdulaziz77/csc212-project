@@ -363,7 +363,7 @@ public class PhoneBook {
         	}
 
         	
-        	
+        	int ch1 , ch2;
         	// If the eventsList is empty
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
@@ -375,7 +375,13 @@ public class PhoneBook {
         	else {
         		eventsList.FindFirst();
             	//the new event should be inserted at the beginning
-            	if(event.getTitle().charAt(0) < eventsList.Retrieve().getTitle().charAt(0) ) {
+        		ch1=event.getTitle().charAt(0);
+        		ch2=eventsList.Retrieve().getTitle().charAt(0);
+        		if(ch1>= 97)
+        			ch1=ch1-32;
+        		if(ch2>= 97)
+        			ch2=ch2-32;
+            	if(ch1 < ch2 ) {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
@@ -388,7 +394,13 @@ public class PhoneBook {
         	    eventsList.FindFirst();
         	    // Iterate through the list to find the correct position to insert the event in middle
         	    while (!eventsList.last()) {
-        	    	if(eventsList.Retrieve().getTitle().charAt(0)>event.getTitle().charAt(0)) {
+            		ch1=event.getTitle().charAt(0);
+            		ch2=eventsList.Retrieve().getTitle().charAt(0);
+            		if(ch1>= 97)
+            			ch1=ch1-32;
+            		if(ch2>= 97)
+            			ch2=ch2-32;
+        	    	if(ch2>ch1) {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
@@ -400,7 +412,13 @@ public class PhoneBook {
         	        eventsList.FindNext();
         	    } 
         	    //check last to insert before it
-        	    if(eventsList.Retrieve().getTitle().charAt(0)>event.getTitle().charAt(0)) {
+        		ch1=event.getTitle().charAt(0);
+        		ch2=eventsList.Retrieve().getTitle().charAt(0);
+        		if(ch1>= 97)
+        			ch1=ch1-32;
+        		if(ch2>= 97)
+        			ch2=ch2-32;
+        	    if(ch2>ch1) {
         			Event moved_event=eventsList.Retrieve();
         			eventsList.update(event);
         			eventsList.insert(moved_event);
