@@ -1,18 +1,15 @@
-package mashael;
-
-package mashael;
 
 public class Event {
 	private String title;
-	private String last_contactInvolved;
+	private String contact_name;
 	private String dateAndTime;
 	private String location;
 	private LinkedList<Contact> event_contacts = new LinkedList<Contact>();
-	
+
 	public Event(String title, String last_contactInvolved, String dateAndTime, String location) {
 		super();
 		this.title = title;
-		this.last_contactInvolved = last_contactInvolved;
+		this.contact_name = last_contactInvolved;
 		this.dateAndTime = dateAndTime;
 		this.location = location;
 	}
@@ -25,12 +22,12 @@ public class Event {
 		this.title = title;
 	}
 
-	public String getLast_contactInvolved() {
-		return last_contactInvolved;
+	public String getContact_name() {
+		return contact_name;
 	}
 
-	public void setLast_contactInvolved(String last_contactInvolved) {
-		this.last_contactInvolved = last_contactInvolved;
+	public void setContact_name(String last_contactInvolved) {
+		this.contact_name = last_contactInvolved;
 	}
 
 	public String getDateAndTime() {
@@ -60,7 +57,7 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event title:" + title + "\nContact name:" + last_contactInvolved + "\nEvent date and time" + dateAndTime  
+		return "Event title:" + title + "\nContact name:" + contact_name + "\nEvent date and time" + dateAndTime  
 				+ "Event location:" + location ;
 	}
 	
