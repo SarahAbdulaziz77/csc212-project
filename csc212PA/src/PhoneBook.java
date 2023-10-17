@@ -1,6 +1,8 @@
-package mashael;
+package CSC212_PA;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+
 public class PhoneBook {
     public static Scanner keyboard = new Scanner(System.in);
 //phone book methods for interacting with contacts list(when adding,searching,deleting)
@@ -293,104 +295,88 @@ public class PhoneBook {
 
         }
 
+	 
+	 
         //Futun
-        public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) {
-        	//if the list is empty
-        	if (ContactsList.isEmpty()) {
-        		return false;
-        	}
-        	
-        	Contact temp = null;
-        	//indicates deleting the contact
-        	boolean flag = false;
-        	ContactsList.FindFirst();
-        	while(!ContactsList.last()) {
-        		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ){
-        			temp = ContactsList.Retrieve();
-        			ContactsList.Remove();
-        			flag = true;
-        			
-        		}
-        		else
-        			ContactsList.FindNext();
-        	}//while stops here
-        	
-        	//checking the last element
-        	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ) {
-        		temp = ContactsList.Retrieve();
-        		ContactsList.Remove();
-        		flag = true;
-    			
-        	}
-        	
-        	//if the contact is deleted from the contact list
-        	if (temp != null) {
-        		if (! Events.isEmpty()) {
-        		Events.FindFirst();
-        		while (! Events.last()) {
-        			//the contacts list inside this event
-        			LinkedList<Contact> eventContacts = Events.Retrieve().getEvent_contacts();
-        			//we dont need to check if the eventContacts is empty because having at least one contact is a must
-        			eventContacts.FindFirst();
-        			while(!eventContacts.last()) {
-        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
-        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
-        					//remove the contact from this event
-        					eventContacts.Remove();
-        					if (eventContacts.isEmpty())
-        						//if the contacts list of this event empty after the contact deleted, then delete the contact
-        						Events.Remove();	
-        				}
-        				eventContacts.FindNext();
-        			}//inner while
-        			
-        			//checking the last contact in the list
-        			//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
-    				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
-    					//remove the contact from this event
-    					eventContacts.Remove();
-    					if (eventContacts.isEmpty())
-    						//if the contacts list of this event empty after the contact deleted, then delete the contact
-    						Events.Remove();
-    				}
-    				
-        			Events.FindNext();
-        		}//outer while
-    				
-    				//checking the last event
-    				//the contacts list inside this event
-        			LinkedList<Contact> eventContacts = Events.Retrieve().getEvent_contacts();
-        			eventContacts.FindFirst();
-        			while(!eventContacts.last()) {
-        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
-        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
-        					//remove the contact from this event
-        					eventContacts.Remove();
-        					if (eventContacts.isEmpty())
-        						//if the contacts list of this event empty after the contact deleted, then delete the contact
-        						Events.Remove();
-        				}
-        				
-        				eventContacts.FindNext();
-        			}//end of while
-        			
-        			    //checking the last contact in the last event
-        				//if the current contact in this contact list that belongs to the current event equals to the name/number in the parameter
-        				if (eventContacts.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber) || eventContacts.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber) ) {
-        					//remove the contact from this event
-        					eventContacts.Remove();
-        					if (eventContacts.isEmpty())
-        						//if the contacts list of this event empty after the contact deleted, then delete the contact
-        						Events.Remove();
-        				}
-    			
-        	}
-        	}
-        	
-        	//all the list have been checked
-        	return flag;
-        	
-        }
+	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String nameOrNumber, LinkedList<Event> Events) { 
+		 Contact contact = SearchForName(ContactsList,nameOrNumber);
+		 LinkedList<Event> mutualEvents = contact.getContact_events();
+		 
+		 
+		 if((! Events.isEmpty()) && (!mutualEvents.isEmpty())) {
+  			Events.FindFirst();
+  			while(!Events.last()) {
+      			
+  				mutualEvents.FindFirst();
+  				while(!mutualEvents.last()) {
+  					if (Events.Retrieve() == mutualEvents.Retrieve()) {
+  						Events.Remove();
+  						//remove also from contacts list events
+  						break;
+  					}
+  					 mutualEvents.FindNext();
+  				}//inner while
+  				
+  				//last mutual event
+  				if( !Events.isEmpty() ) {
+  				if (Events.Retrieve() == mutualEvents.Retrieve())
+						Events.Remove();
+  				}
+  				
+  				Events.FindNext();
+  			}//outer while
+  			
+  			//last event
+  			while(!Events.last()) {
+      			mutualEvents.FindFirst();
+  				while(!mutualEvents.last()) {
+  					if (Events.Retrieve() == mutualEvents.Retrieve()) {
+  						Events.Remove();
+  						break;
+  					}
+  						
+  					 mutualEvents.FindNext();
+  				}//inner while
+  				
+  				//last mutual event
+  				if(!Events.isEmpty() ) {
+  				if (Events == mutualEvents)
+						Events.Remove();
+  				}
+  		     }
+  		}
+  
+  	
+		 
+		 
+		 
+     	//if the list is empty
+     	if (ContactsList.isEmpty()) {
+     		return false;
+     	}
+     	
+     	//indicates deleting the contact
+     	boolean flag = false;
+     	ContactsList.FindFirst();
+     	while(!ContactsList.last()) {
+     		if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ){
+     			ContactsList.Remove();
+     			flag = true;
+     			
+     		}
+     		
+     			ContactsList.FindNext();
+     	}//while stops here
+     	
+     	//checking the last element
+     	if( (ContactsList.Retrieve().getFullName().equalsIgnoreCase(nameOrNumber)) || (ContactsList.Retrieve().getPhoneNumber().equalsIgnoreCase(nameOrNumber)) ) {
+     		ContactsList.Remove();
+     		flag = true;
+ 			
+     	}
+     	return flag;
+	 }
+
         	
 
         public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
@@ -398,11 +384,22 @@ public class PhoneBook {
         	Contact contact = SearchForName(contactsList,event.getLast_contactInvolved());
         	if(contact==null) return false;
         	
+        	Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()) ;
+        	if( existingEvent !=null ) {
+        		existingEvent.getEvent_contacts().insert(contact); 
+        	    existingEvent.setLast_contactInvolved(contact.getFullName());
+        	    contact.getContact_events().insert(existingEvent);
+        	    return true;
+        	}
+
+        	
+        	
         	// If the eventsList is empty
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
         	    event.getEvent_contacts().insert(contact); 
         	    event.setLast_contactInvolved(contact.getFullName());
+        	    contact.getContact_events().insert(event);
         	    return true;
         	} 
         	else {
@@ -414,6 +411,7 @@ public class PhoneBook {
             			eventsList.insert(moved_event);
                 	    event.getEvent_contacts().insert(contact); 
                 	    event.setLast_contactInvolved(contact.getFullName());
+                	    contact.getContact_events().insert(event);
             			return true;
             		}
             	
@@ -426,6 +424,7 @@ public class PhoneBook {
             			eventsList.insert(moved_event);
                 	    event.getEvent_contacts().insert(contact); 
                 	    event.setLast_contactInvolved(contact.getFullName());
+                	    contact.getContact_events().insert(event);
                 	    return true;
         	    	}		
         	        eventsList.FindNext();
@@ -437,12 +436,14 @@ public class PhoneBook {
         			eventsList.insert(moved_event);
             	    event.getEvent_contacts().insert(contact); 
             	    event.setLast_contactInvolved(contact.getFullName());
+            	    contact.getContact_events().insert(event);
             	    return true;
             	}	
         	    //if it should be last
     			eventsList.insert(event);
         	    event.setLast_contactInvolved(contact.getFullName());
         	    event.getEvent_contacts().insert(contact); 
+        	    contact.getContact_events().insert(event);
     			return true;
         	}
         }
@@ -489,6 +490,8 @@ public class PhoneBook {
             System.out.println("Event location: "+ event.getLocation());
             
         }
+        
+        
         
         
         
