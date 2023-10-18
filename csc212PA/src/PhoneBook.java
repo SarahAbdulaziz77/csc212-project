@@ -488,10 +488,9 @@ public class PhoneBook {
 
         LinkedList<Contact> ContactsList = new LinkedList<Contact>();
         LinkedList<Event> EventsList = new LinkedList<Event>();
-
+        System.out.println("\nWelcome to the Linked Tree PhoneBook!");
         int choice = 0;
         do {
-            System.out.println("\nWelcome to the Linked Tree PhoneBook!");
             System.out.println("Please choose an option:");
             System.out.println("1.Add a contact");
             System.out.println("2.Search for a contact");
@@ -557,6 +556,7 @@ public class PhoneBook {
                                             System.out.println("Sorry,this Contact name is not exist!");
                                         }
                                         else {
+                                            System.out.println("Contact found!");
                                             Namefound.printContact();
                                         }
                                         break;
@@ -683,6 +683,7 @@ public class PhoneBook {
                                         if (Eventfound == null) {
                                             System.out.println(" Sorry Event not found. ");
                                         } else {
+                                            System.out.println("Event found!");
                                             printEventDetails(Eventfound);
                                         }
                                         break;
@@ -697,6 +698,7 @@ public class PhoneBook {
                                         } else {
                                             printEventDetails(Eventfound);
                                         }
+                                        break; //modified
                                     default:
                                         System.out.println("Incorrect number please choose from 1-2!\n");
 
@@ -731,24 +733,6 @@ public class PhoneBook {
             }
         }while(choice!=8);
         
-//this is an extra print contact list test
-        if(!ContactsList.isEmpty()) {
-        ContactsList.FindFirst();
-        while (!ContactsList.last()) {
-            System.out.println(ContactsList.Retrieve());
-            ContactsList.FindNext();
-        }
-        // print last
-        System.out.println(ContactsList.Retrieve());}
-        
-        if(!EventsList.isEmpty()) {
-        EventsList.FindFirst();
-        while (!EventsList.last()) {
-            System.out.println(EventsList.Retrieve());
-            EventsList.FindNext();
-        }
-        // print last
-        System.out.println(EventsList.Retrieve());}
         
     }//end main
 
