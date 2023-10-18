@@ -299,21 +299,26 @@ public class PhoneBook {
 		 //deleting the events that were hold by that contact
 		 if(!Events.isEmpty()) {
 			 Events.FindFirst();
-			 while(!Events.isEmpty() && !Events.last()) {
+			 while(!Events.last()) {
 				 if (Events.Retrieve().getContact_name().equalsIgnoreCase(name)) {
+					 //moves current and delete
 					 Events.Remove();
-					 return;
+					 if(Events.isEmpty())
+						 return;
 				 }
-                 //no matching found continue
+                 //no matching found continue and move current
+				 else {
 					 Events.FindNext();
+				 }
 				 }
 			     //last event
 				 if (!Events.isEmpty() && Events.Retrieve().getContact_name().equalsIgnoreCase(name)) {
-					 Events.Remove();
-					 return;			 
+					 Events.Remove();	
+					 }		 
 				 }
+				 else {
+					 return;}
 	 
-	 }
 	 }//end method
 	 public static boolean deleteContact(LinkedList<Contact> ContactsList,String name, LinkedList<Event> Events) { 
 		//deleting the contact from contact list
