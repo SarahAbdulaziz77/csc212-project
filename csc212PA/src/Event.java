@@ -57,8 +57,8 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event title:" + title + "\nContact name:" + contact_name + "\nEvent date and time" + dateAndTime  
-				+ "Event location:" + location ;
+		return "Event title:" + title + "\nContact name:" + contact_name + "\nEvent date and time:" + dateAndTime  
+				+ "\nEvent location:" + location ;
 	}
 	
 }
