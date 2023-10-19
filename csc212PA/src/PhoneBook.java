@@ -514,6 +514,8 @@ public class PhoneBook {
                      // remove garbage
                      keyboard.nextLine();
                      String name = keyboard.nextLine();
+                     if(name.indexOf(' ')== -1)
+                    	name= name.concat(" ");
                      System.out.print("Enter the contact's phone number:");
                      String phone_number = keyboard.next();
                      System.out.print("Enter the contact's email address:");
