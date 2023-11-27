@@ -1,33 +1,30 @@
 
 public class Event {
+	private char type;
 	private String title;
-	private String contact_name;
 	private String dateAndTime;
 	private String location;
 	private LinkedList<Contact> event_contacts = new LinkedList<Contact>();
 
-	public Event(String title, String last_contactInvolved, String dateAndTime, String location) {
-		super();
+	public Event(char type,String title, Contact contact, String dateAndTime, String location) {
+		this.type=type;
 		this.title = title;
-		this.contact_name = last_contactInvolved;
+		event_contacts.insert(contact);
 		this.dateAndTime = dateAndTime;
 		this.location = location;
 	}
-
+	public char getType() {
+		return type;
+	}
+	public void setType(char type) {
+		this.type=type;
+	}
 	public String getTitle() {
 		return title;
 	}
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getContact_name() {
-		return contact_name;
-	}
-
-	public void setContact_name(String last_contactInvolved) {
-		this.contact_name = last_contactInvolved;
 	}
 
 	public String getDateAndTime() {
@@ -57,8 +54,17 @@ public class Event {
 
 	@Override
 	public String toString() {
-		return "Event title:" + title + "\nContact name:" + contact_name + "\nEvent date and time:" + dateAndTime  
-				+ "\nEvent location:" + location ;
+		if(type=='E')
+			return "Event title:" + title + 
+					"\nContacts names:" +event_contacts +
+					"\nEvent date and time:" + dateAndTime  
+					+ "\nEvent location:" + location ;	
+		else if(type=='A')
+			return "Event title:" + title + 
+					"\nContact name:" +event_contacts +
+					"\nEvent date and time:" + dateAndTime  
+					+ "\nEvent location:" + location ;
+		else return "";
 	}
 	
 }
