@@ -1,3 +1,5 @@
+package CSC212_PA;
+
 
 public class Event {
 	private char type;
@@ -13,6 +15,15 @@ public class Event {
 		this.dateAndTime = dateAndTime;
 		this.location = location;
 	}
+	
+	public Event(char type,String title, LinkedList<Contact> contacts, String dateAndTime, String location) {
+		this.type=type;
+		this.title = title;
+		event_contacts = contacts;
+		this.dateAndTime = dateAndTime;
+		this.location = location;
+	}
+	
 	public char getType() {
 		return type;
 	}
