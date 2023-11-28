@@ -296,27 +296,34 @@ public class PhoneBook {
 	 
         public static boolean scheduleEvent(ContactBST Contactstree,LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
         	//check if contactsList empty 
-        	if ( contactsList.isEmpty())
+        	if ( contactsList.isEmpty()) {
+        		System.out.println("could not schedule, there are no give contacts");
         		return false;
+        	}
         	
         	//check if contact exist in phone book bst
         	contactsList.FindFirst();
              while (!contactsList.last()) {
-                 if (!(Contactstree.findkey(contactsList.Retrieve().getFullName())))
+                 if (!(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
+                	 System.out.println("could not schedule, due to contact(s) unavailability");
                      return false;
+                 }
                  contactsList.FindNext();
              }
-             if (!(Contactstree.findkey(contactsList.Retrieve().getFullName())))
-            	//System.out.println("The even was not added due to contact(s) unavailability");
+             if (!(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
+            	 System.out.println("could not schedule, due to contact(s) unavailability");
                  return false;
+             }
              
              
              //if event exists
              Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()); //same title
              //same time and location
-             if (event.getType() == 'E' && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
-            	 if ( contactsList.isEmpty())
+             if ( ( event.getType() == 'E' ||  event.getType() == 'e') && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
+            	 if ( contactsList.isEmpty()) {
+            		    System.out.println("could not schedule, there are no give contacts");
                 		return false;
+            	 }
              	
                 	
             	 contactsList.FindFirst();
@@ -327,35 +334,24 @@ public class PhoneBook {
                      event.getEvent_contacts().insert(contactsList.Retrieve());
                      //System.out.println("added contacts to an exisiting event");
                      return true;
-                
              }
-            	 
+             //more than one contact in an appointment
+             if (event.getType() == 'a' || event.getType() == 'A' ) {
+            	 event.getEvent_contacts().FindFirst();
+            	 if ( ! event.getEvent_contacts().last()) {
+            		 System.out.println("could not schedule, the appointment can take 1 contact only.");
+            		 return false;
+            	 }
+             }
              
              
-        }
- 
-        	
-        	
-        	
-        	/*Contact contact = ContactsList(contactsList,event.getContact_name());
-        	if(contact==null) return false;
-        	
-        	Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()) ;
-        	if( existingEvent !=null ) {
-        		existingEvent.getEvent_contacts().insert(contact); 
-        	    existingEvent.setContact_name(contact.getFullName());
-        	    contact.getContact_events().insert(existingEvent);
-        	    return true;
-        	}
-
+            //adding event/appointment
         	
         	int ch1 , ch2;
         	// If the eventsList is empty
         	if ( eventsList.isEmpty() ) {
         	    eventsList.insert(event);
-        	    event.getEvent_contacts().insert(contact); 
-        	    event.setContact_name(contact.getFullName());
-        	    contact.getContact_events().insert(event);
+        	    //contact.getContact_events().insert(event);
         	    return true;
         	} 
         	else {
@@ -371,9 +367,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
-                	    event.getEvent_contacts().insert(contact); 
-                	    event.setContact_name(contact.getFullName());
-                	    contact.getContact_events().insert(event);
+                	    //contact.getContact_events().insert(event);
             			return true;
             		}
             	
@@ -390,9 +384,7 @@ public class PhoneBook {
             			Event moved_event=eventsList.Retrieve();
             			eventsList.update(event);
             			eventsList.insert(moved_event);
-                	    event.getEvent_contacts().insert(contact); 
-                	    event.setContact_name(contact.getFullName());
-                	    contact.getContact_events().insert(event);
+                	    //contact.getContact_events().insert(event);
                 	    return true;
         	    	}		
         	        eventsList.FindNext();
@@ -408,36 +400,17 @@ public class PhoneBook {
         			Event moved_event=eventsList.Retrieve();
         			eventsList.update(event);
         			eventsList.insert(moved_event);
-            	    event.getEvent_contacts().insert(contact); 
-            	    event.setContact_name(contact.getFullName());
-            	    contact.getContact_events().insert(event);
+            	    //contact.getContact_events().insert(event);
             	    return true;
             	}	
         	    //if it should be last
     			eventsList.insert(event);
-    			event.setContact_name(contact.getFullName());
-        	    event.getEvent_contacts().insert(contact); 
-        	    contact.getContact_events().insert(event);
+        	    //contact.getContact_events().insert(event);
     			return true;
         	}
         }
-        */
-             
-       public static boolean addContactstoExistEvent(Event event, LinkedList<Contact> contacts) { 
-    	   if ( contacts.isEmpty())
-       		return false;
-    	
-       	
-    	   contacts.FindFirst();
-            while (!contacts.last()) {
-            	event.getEvent_contacts().insert(contacts.Retrieve());
-            	contacts.FindNext();
-            }
-            event.getEvent_contacts().insert(contacts.Retrieve());
-            return true;
-       
-       }
-             
+        
+    
              
         //Futun
         public static boolean isConflict(Event event, LinkedList<Event> Events) {
@@ -447,31 +420,21 @@ public class PhoneBook {
         	}
         	Events.FindFirst();
         	while (! Events.last()) {
-        		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
-        			if( Events.Retrieve().getTitle().equals(event.getTitle())){
-        				//the event already exists so we will just add the contact in it
-        				return false;	
-        			}
-        			else 
+        		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) 
         				return true;
-	
-        		}
+        		
         		Events.FindNext();
         	}//end of while
         		
         		//checking the last element
-        		if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime())) {
-        			if( Events.Retrieve().getTitle().equals(event.getTitle())){
-        				//the event already exists so we will just add the contact in it
-        				return false;	
-        			}
-        			else 
-        				return true;
-        		
-        	}
+        	if ( Events.Retrieve().getDateAndTime().equals(event.getDateAndTime()))
+        		return true;
+
         		//all the list have been checked
         		return false;
         }
+        
+        
         public static boolean validateDateAndTime(String dateAndTime) {
         	//validate date format before
             // Define the desired date and time format using the java function
@@ -655,15 +618,20 @@ public class PhoneBook {
                     break;
                 }
                  case 4:{
+                	 char type;
+                	//assigned to null to avoid error, will be changed
+                	 String title = null,location = null,dateAndTime = null,contact_name; 
+                     boolean validDateAndTime;
+                     LinkedList<Contact> givenContacts;
+                     Event event;
+                	 int choice4 = -1;
+                     
                      do {
                          System.out.println("\nEnter type: ");
                          System.out.println("1.event");
                          System.out.println("2.appointment");
-                         char type = keyboard.next().charAt(0);
-                         String title,location,dateAndTime;
-                         String contact_name;
-                         boolean validDateAndTime;
-                         LinkedList<Contact> givenContacts=new LinkedList<Contact>();
+                         type = keyboard.next().charAt(0);
+                         givenContacts=new LinkedList<Contact>();
                             switch (type) {
                             
                                case 1: //event
@@ -683,10 +651,11 @@ public class PhoneBook {
                                     do {
                                        System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                        dateAndTime = keyboard.nextLine();
-                                       }while( validateDateAndTime(dateAndTime)  ) 
+                                       }while( validateDateAndTime(dateAndTime));  
                                     System.out.print("Enter event location:");
                                     location = keyboard.nextLine();
                                     break;
+                                       
                                        
                                     
                                case 2: //appointment
@@ -696,42 +665,38 @@ public class PhoneBook {
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contact name:");
                                     contact_name = keyboard.nextLine();
-                                    //i will be searching for the contact from the tree
-                                    givenContacts.insert(ContactsList.getContact(contact_name)); //missing info to create contact object
+                                    //getting one contact then insert in given contacts kist
+                                    givenContacts.insert(ContactsList.getContact(contact_name)); 
                                     do {
                                        System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                        dateAndTime = keyboard.nextLine();
-                                       }while( validateDateAndTime(dateAndTime) )
+                                       }while( validateDateAndTime(dateAndTime));
                                     System.out.print("Enter appointment location:");
                                     location = keyboard.nextLine();
                                     break; 
                                     
                               default:
                                     System.out.println("Incorrect number please choose from 1-2!\n");
-                            }//close inner switch
-                            
-                    Event event= new Event(type,title,givenContacts, dateAndTime, location);
-                    
-                    
-                   
-                    //isConflict !!!THIS METHOD SHOULD BE CHANGED ONLY CHECK IF IT HAS CONFLICT WITH ANOTHER EVENT/APP THE USER HAVE IN TIME 
+                            }//close inner switch  
+                            }while (choice4 <=0 || choice4>2);
+                     
+                     event= new Event(type,title,givenContacts, dateAndTime, location);
+                    //isConflict
                     if(!(PhoneBook.isConflict(event,EventsList))) {
-                    	//scheduleEvent checks if the contact exists then adds the event
+                    	//scheduleEvent checks if the contacts exists/ appointment is given 1 contact only then adds the event/app
                     	if( scheduleEvent(ContactsList,EventsList,givenContacts,event) )
-                    		
-                    		
-                    		
-                    		
-                    		
                     		System.out.println("\nEvent scheduled successfully!\n");
-                    	else
-                    		System.out.println("\nCouldnt schedule, contact not found.\n");
+                    	//else
+                    		//in else condition the msg will be displayed from the method itself so that the user can know the reason of not scheduling
+                    		//either contacts not found or you gave too many contacts for an appointment.\n");
                     }else
+                    	 // if there is a conflict the method isConflict will explain the conflict with a print method
                     	System.out.println("Couldnt schedule, There is a conflict.");
-                    // if there is a conflict the method isConflict will explain the conflict with a print method
-                    
+                   
+                  
                     	break;
-                    }
+                    	}
+                    
                   
                  case 5: {
                   //print all events or appointments that share the same title or contact name
