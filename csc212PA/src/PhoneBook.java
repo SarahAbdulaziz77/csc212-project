@@ -293,10 +293,51 @@ public class PhoneBook {
 			 }//end appointment 'A' Case
 	 }//end method
 
-	 /*
-        public static boolean scheduleEvent(LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
-        	//check if contact exist in phone book 
-        	Contact contact = SearchForName(contactsList,event.getContact_name());
+	 
+        public static boolean scheduleEvent(ContactBST Contactstree,LinkedList<Event> eventsList,LinkedList<Contact> contactsList, Event event) {
+        	//check if contactsList empty 
+        	if ( contactsList.isEmpty())
+        		return false;
+        	
+        	//check if contact exist in phone book bst
+        	contactsList.FindFirst();
+             while (!contactsList.last()) {
+                 if (!(Contactstree.findkey(contactsList.Retrieve().getFullName())))
+                     return false;
+                 contactsList.FindNext();
+             }
+             if (!(Contactstree.findkey(contactsList.Retrieve().getFullName())))
+            	//System.out.println("The even was not added due to contact(s) unavailability");
+                 return false;
+             
+             
+             //if event exists
+             Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()); //same title
+             //same time and location
+             if (event.getType() == 'E' && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
+            	 if ( contactsList.isEmpty())
+                		return false;
+             	
+                	
+            	 contactsList.FindFirst();
+                     while (!contactsList.last()) {
+                     	event.getEvent_contacts().insert(contactsList.Retrieve());
+                     	contactsList.FindNext();
+                     }
+                     event.getEvent_contacts().insert(contactsList.Retrieve());
+                     //System.out.println("added contacts to an exisiting event");
+                     return true;
+                
+             }
+            	 
+             
+             
+        }
+ 
+        	
+        	
+        	
+        	/*Contact contact = ContactsList(contactsList,event.getContact_name());
         	if(contact==null) return false;
         	
         	Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()) ;
@@ -381,6 +422,23 @@ public class PhoneBook {
         	}
         }
         */
+             
+       public static boolean addContactstoExistEvent(Event event, LinkedList<Contact> contacts) { 
+    	   if ( contacts.isEmpty())
+       		return false;
+    	
+       	
+    	   contacts.FindFirst();
+            while (!contacts.last()) {
+            	event.getEvent_contacts().insert(contacts.Retrieve());
+            	contacts.FindNext();
+            }
+            event.getEvent_contacts().insert(contacts.Retrieve());
+            return true;
+       
+       }
+             
+             
         //Futun
         public static boolean isConflict(Event event, LinkedList<Event> Events) {
         	//if the list is empty then there is no conflict
@@ -414,7 +472,7 @@ public class PhoneBook {
         		//all the list have been checked
         		return false;
         }
-        public boolean validateDateAndTime(String dateAndTime) {
+        public static boolean validateDateAndTime(String dateAndTime) {
         	//validate date format before
             // Define the desired date and time format using the java function
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
@@ -596,13 +654,14 @@ public class PhoneBook {
 
                     break;
                 }
-                /*case 4:{
+                 case 4:{
                      do {
                          System.out.println("\nEnter type: ");
                          System.out.println("1.event");
                          System.out.println("2.appointment");
-                         char type = keyboard.nextChar();
-                         String title,contact_name,location,dateAndTime;
+                         char type = keyboard.next().charAt(0);
+                         String title,location,dateAndTime;
+                         String contact_name;
                          boolean validDateAndTime;
                          LinkedList<Contact> givenContacts=new LinkedList<Contact>();
                             switch (type) {
@@ -614,15 +673,21 @@ public class PhoneBook {
                                     keyboard.nextLine();
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contacts name separated by a comma:");
-                                    contact_name = keyboard.nextLine();
-                                    //do a loop that gets each contact object to create a contactlist to give it to the constructer
+                                    contact_name = (String) keyboard.nextLine();
+                                    givenContacts.insert(ContactsList.getContact(contact_name));
+                                    for (String name : contact_name.split(", ")) {
+                                    	givenContacts.insert(ContactsList.getContact(contact_name));
+                                    }
+                                    
+                                    
                                     do {
                                        System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                        dateAndTime = keyboard.nextLine();
-                                       }while( validateDateAndTime(dateAndTime) )
+                                       }while( validateDateAndTime(dateAndTime)  ) 
                                     System.out.print("Enter event location:");
                                     location = keyboard.nextLine();
                                     break;
+                                       
                                     
                                case 2: //appointment
                                     System.out.print("\nEnter appointment title:");
@@ -631,7 +696,8 @@ public class PhoneBook {
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contact name:");
                                     contact_name = keyboard.nextLine();
-                                    //do a loop that adds this contact to a list alone 
+                                    //i will be searching for the contact from the tree
+                                    givenContacts.insert(ContactsList.getContact(contact_name)); //missing info to create contact object
                                     do {
                                        System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                        dateAndTime = keyboard.nextLine();
@@ -645,11 +711,18 @@ public class PhoneBook {
                             }//close inner switch
                             
                     Event event= new Event(type,title,givenContacts, dateAndTime, location);
+                    
+                    
                    
                     //isConflict !!!THIS METHOD SHOULD BE CHANGED ONLY CHECK IF IT HAS CONFLICT WITH ANOTHER EVENT/APP THE USER HAVE IN TIME 
                     if(!(PhoneBook.isConflict(event,EventsList))) {
                     	//scheduleEvent checks if the contact exists then adds the event
-                    	if( scheduleEvent(EventsList,ContactsList,event) )
+                    	if( scheduleEvent(ContactsList,EventsList,givenContacts,event) )
+                    		
+                    		
+                    		
+                    		
+                    		
                     		System.out.println("\nEvent scheduled successfully!\n");
                     	else
                     		System.out.println("\nCouldnt schedule, contact not found.\n");
@@ -659,7 +732,7 @@ public class PhoneBook {
                     
                     	break;
                     }
-                  */
+                  
                  case 5: {
                   //print all events or appointments that share the same title or contact name
                             int SearchChoice2=0;
