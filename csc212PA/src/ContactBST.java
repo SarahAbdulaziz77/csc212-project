@@ -215,7 +215,7 @@ public LinkedList<Contact> SearchByFirstName(String name){
         LinkedList<Contact> matching_contacts = new LinkedList<>(); // we will store the matching contacts in it
         if (root==null)
             return matching_contacts;
-        SearchByFirstName(root,name,matching_contacts); //calling the private method
+        SearchByFirstName(root,name,matching_contacts); // the private one
         return matching_contacts;
     }
     private void SearchByFirstName(BSTNode<Contact> p , String name, LinkedList<Contact> matching_contacts){
