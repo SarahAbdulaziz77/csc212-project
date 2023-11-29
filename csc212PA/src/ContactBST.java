@@ -54,17 +54,26 @@ public class ContactBST {
         return null;
     }
     
-    private boolean checkByTraverseInOrder(BSTNode<Contact> p, String phone_number) {
-        if (p == null) return true;
-        checkByTraverseInOrder(p.left, phone_number);
-        if (p.key.equals(phone_number)) {
-            return false;
-        }
-        return checkByTraverseInOrder(p.right, phone_number);
+    public boolean hasPhoneNumber(String phoneNumber) {
+    	if(root==null)
+    		return false;
+        return hasPhoneNumber(root, phoneNumber);
     }
 
-    public boolean checkByTraverseInOrder(String phone_number) {
-        return checkByTraverseInOrder(root, phone_number);
+    private boolean hasPhoneNumber(BSTNode<Contact> node, String phoneNumber) {
+        if (node == null) {
+            return false; // Base case: reached a leaf node, contact not found
+        }
+        // Traverse left
+        if (hasPhoneNumber(node.left, phoneNumber)) {
+            return true;
+        }
+        // Check current node's contact for the given phone number
+        if (node.data.getPhoneNumber().equals(phoneNumber)) {
+            return true; // Contact found
+        }
+        // Traverse right
+        return hasPhoneNumber(node.right, phoneNumber);
     }
 
     public boolean insert(String key, Contact val) {
@@ -74,11 +83,13 @@ public class ContactBST {
             return true;
         }
         //if number exist?
-        if(checkByTraverseInOrder(val.getPhoneNumber()) ){
+        if(hasPhoneNumber(val.getPhoneNumber()) ){
+        	System.out.println("Contact with the specified number found!");
         	return false; 
         }
         //if name exist?
-        if(findkey(key)) {
+        if (findkey(val.getFullName())) {
+            System.out.println("Contact with the specified name found!");
             return false;
         }
         
@@ -127,7 +138,7 @@ public class ContactBST {
     		}
     		else {
     			//found the key n==p.key now delete where p is the key and q is his parent
-    		//check three cases...
+    	    	//check three cases...
     			
     			//case 1:has two children
     			if(p.left!=null && p.right!=null) {
@@ -145,36 +156,30 @@ public class ContactBST {
     				n=min.key;
     				p=min;
     				//q is still parent of old min place
-    			}
+    		     	}//end case of two children
     			
     			//case2-3:one child on left or right..or none..we want to connect the child of p with p parent to remove p
     			//update p to the child of node that we want to delete
-    			if(p.left!=null) {
+    			if(p.left!=null)
     				p=p.left;
-    			}
-    			else {
+    			else
     				p=p.right;	
-    			}
     			//if it was root
-    			if(q==null) { 
-    			root=p;
-    			//root here will only have one child cause we covered the case of two
-    			}
+    			if(q==null) 
+    			root=p; //root here will only have one child cause we covered the case of two
     			else {
     			//connect the parent q of node we want to delete..in two cases(if it has one child or none)
-    				if(n.compareToIgnoreCase(q.key)<0) {
+    				if(n.compareToIgnoreCase(q.key)<0)
     					q.left=p;
-    				}
-    				else {
+    				else
     					q.right=p;
-    				}
     			}
-    			current=root;
+    			current=root; //after deleting set the current on root
     			return true;
-    		}//what
-    	}//what
+    		}//end case where we found it and deleted it 
+    	}//done searching all BST
     	return false;//not found
-    }//what
+    }//end method
     		
 
     private void inOrder(BSTNode<Contact> p){
@@ -228,6 +233,4 @@ public LinkedList<Contact> SearchByFirstName(String name){
             matching_contacts.insert(p.data); }
         SearchByFirstName(p.right,name,matching_contacts);
     }
-
     }
-
