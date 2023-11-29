@@ -1,50 +1,13 @@
 package CSC212_PA;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class PhoneBook {
     public static Scanner keyboard = new Scanner(System.in);
     //phone book methods for interacting with contacts list(when adding,searching,deleting)
-//MASHAEL OLD
-    public static void printContactsByFirstName(LinkedList<Contact> ContactsList) {
-        LinkedList<Contact> matching_contacts =new LinkedList<Contact>();
-        String contact_fullName;
-        System.out.print("\nEnter the first name:");
-        String firstName=keyboard.next();
-        //if empty
-        if(ContactsList.isEmpty()) {
-            System.out.println("\nNo Contacts found inside this phonebook.\n");
-            return;
-        }
-        //search
-        ContactsList.FindFirst();
-        while(!ContactsList.last()) {
-            contact_fullName= ContactsList.Retrieve().getFullName();
-            if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equalsIgnoreCase(firstName))
-                matching_contacts.insert( ContactsList.Retrieve() );
-            ContactsList.FindNext();
-        }
-        // check last element
-        contact_fullName= ContactsList.Retrieve().getFullName();
-        if(contact_fullName.substring(0,contact_fullName.indexOf(' ')).equalsIgnoreCase(firstName))
-            matching_contacts.insert( ContactsList.Retrieve() );
-
-        //result
-        if(matching_contacts.isEmpty())
-            System.out.println("\nNo Contacts were found by this name.\n");
-        else {
-            System.out.println("\nContacts found!");
-            //print list
-            matching_contacts.FindFirst();
-            while (!matching_contacts.last()) {
-                System.out.println(matching_contacts.Retrieve());
-                matching_contacts.FindNext();
-            }
-            // print last
-            System.out.println(matching_contacts.Retrieve());
-        }
-    }
     //MASHAEL
     public static void print_Events(LinkedList<Event> EventsList) {
         //events were inserted by alphabetical order
@@ -58,9 +21,9 @@ public class PhoneBook {
             System.out.println(EventsList.Retrieve());
         }
     }
-
-//SARAH
-    public static LinkedList<Contact> PrintContactsByFirstName(String firstName){ //it will return the contacts list that share the first name
+//SARAH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public static LinkedList<Contact> PrintContactsByFirstName(String firstName){ 
+    	//it will return the contacts Linkedlist that share the first name
         ContactBST Contactslist = new ContactBST();
         return Contactslist.SearchByFirstName(firstName);
     }
@@ -152,27 +115,37 @@ public class PhoneBook {
             }
         }
 *///sarah searches^^
+     //MASHAEL
     //SearchEventByContactName method
-      /*  public static Event SearchEbyName (LinkedList<Event> Events, String name) {
+      public static Event SearchEventbyName (LinkedList<Event> Events, String name) {
             if (Events.isEmpty()){
                 return null; }
             else {
                 Events.FindFirst();
                 while (!Events.last()) {
-                    if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
-                        return Events.Retrieve();
+                	Event event =Events.Retrieve();
+                	while (!event.getEvent_contacts().last()) {
+                        if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
+                           return event;
+                        event.getEvent_contacts().FindNext();
+                        }//end inner while for the contacts of one event
+                        //check last contact in this event
+                        event = Events.Retrieve();
+                        if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
+                        return event;
                     Events.FindNext();
                 }
-                if (Events.Retrieve().getContact_name().equalsIgnoreCase(name))
-                        return Events.Retrieve();
-
-                        return null;
-                }
-
-        }*/
+                //check last event
+                Event event =Events.Retrieve();
+                    if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
+                       return event;
+                    else
+                    return event;
+            }//end else if not empty
+      }//end method
 
     //SearchEventByTitle method
-    public static Event SearchEbyTitle (LinkedList<Event> Events, String title) {
+    public static Event SearchEventbyTitle (LinkedList<Event> Events, String title) {
         if (Events.isEmpty()) {
             return null;
         } else {
@@ -186,8 +159,6 @@ public class PhoneBook {
                 return Events.Retrieve();
 
             return null;
-
-
         }
     }
 
@@ -321,7 +292,7 @@ public class PhoneBook {
 
 
         //if event exists
-        Event existingEvent = SearchEbyTitle(eventsList,event.getTitle()); //same title
+        Event existingEvent = SearchEventbyTitle(eventsList,event.getTitle()); //same title
         //same time and location
         if ( ( event.getType() == 'E' ||  event.getType() == 'e') && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
             if ( contactsList.isEmpty()) {
@@ -414,8 +385,6 @@ public class PhoneBook {
         }
     }
 
-
-
     //Futun
     public static boolean isConflict(Event event, LinkedList<Event> Events) {
         //if the list is empty then there is no conflict
@@ -449,7 +418,7 @@ public class PhoneBook {
             return true;
         } catch (ParseException e) {
             // Handle invalid date format
-            System.out.println("\nInvalid date and time format. Please enter in MM/DD/YYYY HH:MM format.\n");
+            System.out.println("\nInvalid date and time format.");
             return false;
         }
     }
@@ -458,14 +427,14 @@ public class PhoneBook {
 
         ContactBST ContactsList = new ContactBST();
         LinkedList<Event> EventsList = new LinkedList<Event>();
-        System.out.println("\nWelcome to the Linked Tree PhoneBook!");
+        System.out.println("\nWelcome to the BST Phonebook!");
         int choice = 0;
         do {
             System.out.println("Please choose an option:");
             System.out.println("1.Add a contact");
             System.out.println("2.Search for a contact");
             System.out.println("3.Delete a contact");
-            System.out.println("4.Schedule an event");
+            System.out.println("4.Schedule for an event/appointment");
             System.out.println("5.Print event details");
             System.out.println("6.Print contacts by first name");
             System.out.println("7.Print all events alphabetically");
@@ -504,8 +473,8 @@ public class PhoneBook {
                             System.out.println("\nContact already exists.\n");
                         break;
                     }
-		/*SARAH
-                 case 2: {
+                 case 2: 
+                	 /*SARAH{
                             LinkedList<Contact> Contactfound = new LinkedList<Contact>();
                             int SearchChoice=0;
                             do {
@@ -622,7 +591,7 @@ public class PhoneBook {
                         break;
                     }
                     case 4:{
-                        char type;
+                        char type='N';
                         //assigned to null to avoid error, will be changed
                         String title = null,location = null,dateAndTime = null,contact_name;
                         boolean validDateAndTime;
@@ -634,11 +603,12 @@ public class PhoneBook {
                             System.out.println("\nEnter type: ");
                             System.out.println("1.event");
                             System.out.println("2.appointment");
-                            type = keyboard.next().charAt(0);
+                            choice4 = keyboard.nextInt();
                             givenContacts=new LinkedList<Contact>();
-                            switch (type) {
-
+                            switch (choice4) {
                                 case 1: //event
+                                {
+                                	type='E';
                                     //check if event already exist just add the contact to the list otherwise create it
                                     System.out.print("\nEnter event title:");
                                     // remove garbage
@@ -659,30 +629,33 @@ public class PhoneBook {
                                     System.out.print("Enter event location:");
                                     location = keyboard.nextLine();
                                     break;
-
-
-
+                                }
                                 case 2: //appointment
+                                {
+                                	type='A';
                                     System.out.print("\nEnter appointment title:");
                                     // remove garbage
                                     keyboard.nextLine();
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contact name:");
                                     contact_name = keyboard.nextLine();
-                                    //getting one contact then insert in given contacts kist
+                                    //getting one contact then insert in given contacts list
                                     givenContacts.insert(ContactsList.getContact(contact_name));
+                                    boolean valid;
                                     do {
                                         System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                         dateAndTime = keyboard.nextLine();
-                                    }while( validateDateAndTime(dateAndTime));
+                                        valid =validateDateAndTime(dateAndTime);
+                                        System.out.println(valid);
+                                        }while(valid);
                                     System.out.print("Enter appointment location:");
                                     location = keyboard.nextLine();
                                     break;
-
+                                }
                                 default:
                                     System.out.println("Incorrect number please choose from 1-2!\n");
                             }//close inner switch
-                        }while (choice4 <=0 || choice4>2);
+                        }while (choice4 <1 || choice4 > 2);
 
                         event= new Event(type,title,givenContacts, dateAndTime, location);
                         //isConflict
@@ -693,15 +666,12 @@ public class PhoneBook {
                             //else
                             //in else condition the msg will be displayed from the method itself so that the user can know the reason of not scheduling
                             //either contacts not found or you gave too many contacts for an appointment.\n");
-                        }else
+                        }else {
                             // if there is a conflict the method isConflict will explain the conflict with a print method
                             System.out.println("Couldnt schedule, There is a conflict.");
-
-
+                        }
                         break;
-                    }
-
-
+                    }//end case 4
                     case 5: {
                         //print all events or appointments that share the same title or contact name
                         int SearchChoice2=0;
@@ -712,19 +682,19 @@ public class PhoneBook {
                             SearchChoice2 = keyboard.nextInt();
                             switch (SearchChoice2) {
                                 case 1:
-                                    /*
+                                	//this will print the first event found with that contact name we may change it
                                         System.out.println("\nEnter the contact name: ");
                                         //remove garbage
                                         keyboard.nextLine();
                                         String ContactName = keyboard.nextLine();
-                                        Event EventfoundS = SearchEbyName(EventsList, ContactName);
-                                        if (EventfoundS == null) {
+                                        Event Eventfound1 = SearchEventbyName(EventsList, ContactName);
+                                        if (Eventfound1 == null) {
                                             System.out.println(" Sorry Event not found. ");
                                         } else {
                                             System.out.println("Event found!");
-                                            printEventDetails(EventfoundS);
+                                            System.out.println(Eventfound1);
                                         }
-                                        */
+                                        
                                     break;
 
                                 case 2:
@@ -732,24 +702,25 @@ public class PhoneBook {
                                     //remove garbage
                                     keyboard.nextLine();
                                     String EventTitle = keyboard.nextLine();
-                                    Event Eventfoundt = SearchEbyTitle(EventsList, EventTitle);
-                                    if (Eventfoundt == null) {
+                                    Event Eventfound2 = SearchEventbyTitle(EventsList, EventTitle);
+                                    if (Eventfound2 == null) {
                                         System.out.println(" Sorry Event not found. ");
                                     } else {
                                         System.out.println("Event found!");
-                                        System.out.print(Eventfoundt);
+                                        System.out.println(Eventfound2);
                                     }
                                     break;
                                 default:
                                     System.out.println("Incorrect number please choose from 1-2!\n");
 
-                            }//close inner switch
-                        }while (SearchChoice2 <=0 || SearchChoice2>2);
+                                 }//close inner switch
+                           }while (SearchChoice2 <=0 || SearchChoice2>2);
 
-                        break;
-                    } //close case 5
+                            break;
+                            } //close case 5
 
-                    case 6:{
+                    case 6:
+                    {
                         System.out.println("\nEnter the first name: ");
                         //remove garbage
                         keyboard.nextLine();
@@ -757,29 +728,27 @@ public class PhoneBook {
                         //now print all the contacts info with that given first name
                         PrintContactsByFirstName(firstName);
                         break;
-                    }
+                            }
                     case 7:{
                         System.out.println("\nAll Events list:\n");
                         print_Events(EventsList);
                         break;
-                    }
+                            }
                     case 8:{
                         System.out.println("GoodBye!");
                         break;
-                    }
-                    default:
-                    {
+                           }
+                       default:
+                        {
                         System.out.println("Incorrect number please try again and choose from 1-8!\n");
-                    }
-                }//close switch
+                        }
+            }//close switch for main menu
+            
             } catch(InputMismatchException e) {
                 // Handle incorrect input
                 System.out.println("Invalid input please try again and enter a number from 1-8.\n");
                 keyboard.next(); // Consume the invalid input
             }
         }while(choice!=8);
-
-
     }//end main
-
 }
