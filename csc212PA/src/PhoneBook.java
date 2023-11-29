@@ -9,7 +9,7 @@ public class PhoneBook {
     public static Scanner keyboard = new Scanner(System.in);
     //phone book methods for interacting with contacts list(when adding,searching,deleting)
     //MASHAEL
-    public static void print_Events(LinkedList<Event> EventsList) {
+    public static void print_EventsAlphabetically(LinkedList<Event> EventsList) {
         //events were inserted by alphabetical order
         if(!EventsList.isEmpty()) {
             EventsList.FindFirst();
@@ -465,6 +465,59 @@ public class PhoneBook {
        }while (SearchChoice2 <=0 || SearchChoice2>2);
 
         }//end method
+    public static void addContact(ContactBST ContactsList) {
+    	System.out.print("\nEnter the contact's name:");
+        // remove garbage
+        keyboard.nextLine();
+        String name = keyboard.nextLine();
+        if(name.indexOf(' ')== -1)
+            name= name.concat(" ");
+        System.out.print("Enter the contact's phone number:");
+        String phone_number = keyboard.next();
+        System.out.print("Enter the contact's email address:");
+        String email = keyboard.next();
+        System.out.print("Enter the contact's address:");
+        // remove garbage
+        keyboard.nextLine();
+        String address = keyboard.nextLine();
+        System.out.print("Enter the contact's birthday:");
+        String birthday = keyboard.next();
+        System.out.print("Enter any notes for the contact:");
+        // remove garbage
+        keyboard.nextLine();
+        String notes = keyboard.nextLine();
+        // create a contact
+
+        Contact new_contact = new Contact(name, phone_number, email, address, birthday, notes);
+        if(ContactsList.insert(name,new_contact)) 
+            System.out.println("\nContact added successfully!\n");
+        else
+            System.out.println("\nContact already exists.\n");
+    }//end method
+    public static void deleteContact(ContactBST ContactsList,LinkedList<Event> EventsList) {
+    boolean deleted=false;
+    //delete a contact and delete his appointments or his name if he exist in event
+    //i need to check here if he can delete by number
+    System.out.print("Enter the contact's name: ");
+    // remove garbage
+    keyboard.nextLine();
+    String name = keyboard.nextLine();
+    //1.remove from contacts list
+
+    if(ContactsList.removeKey(name) )
+        deleted=true;
+    //2.remove from events list
+    deleteMatchingContactEventsForEventsList(name, EventsList);
+
+
+    if (deleted == true) {
+        System.out.println("\nThe contact is deleted successfully!");
+    }else {
+        System.out.println("\nThe contact is not found");
+    }
+    }//end method 
+
+
     //main method
     public static void main(String[] args) {
 
@@ -487,35 +540,10 @@ public class PhoneBook {
                 choice = keyboard.nextInt();
                 switch(choice) {
                     case 1:{
-                        System.out.print("\nEnter the contact's name:");
-                        // remove garbage
-                        keyboard.nextLine();
-                        String name = keyboard.nextLine();
-                        if(name.indexOf(' ')== -1)
-                            name= name.concat(" ");
-                        System.out.print("Enter the contact's phone number:");
-                        String phone_number = keyboard.next();
-                        System.out.print("Enter the contact's email address:");
-                        String email = keyboard.next();
-                        System.out.print("Enter the contact's address:");
-                        // remove garbage
-                        keyboard.nextLine();
-                        String address = keyboard.nextLine();
-                        System.out.print("Enter the contact's birthday:");
-                        String birthday = keyboard.next();
-                        System.out.print("Enter any notes for the contact:");
-                        // remove garbage
-                        keyboard.nextLine();
-                        String notes = keyboard.nextLine();
-                        // create a contact
-
-                        Contact new_contact = new Contact(name, phone_number, email, address, birthday, notes);
-                        if(ContactsList.insert(name,new_contact))
-                            System.out.println("\nContact added successfully!\n");
-                        else
-                            System.out.println("\nContact already exists.\n");
-                        break;
-                    }
+                    	//MASHAEL
+                    	addContact( ContactsList);
+                    	break;
+                         }
                  case 2: 
                 	 /*SARAH{
                             LinkedList<Contact> Contactfound = new LinkedList<Contact>();
@@ -607,30 +635,10 @@ public class PhoneBook {
                         }// close case2
 
                 */
-                    //MASHAEL
+                    
                     case 3:{
-                        boolean deleted=false;
-                        //delete a contact and delete his appointments or his name if he exist in event
-                        //i need to check here if he can delete by number
-                        System.out.print("Enter the contact's name: ");
-                        // remove garbage
-                        keyboard.nextLine();
-                        String name = keyboard.nextLine();
-                        //1.remove from contacts list
-
-                        if(ContactsList.removeKey(name) )
-                            deleted=true;
-                        //2.remove from events list
-                        deleteMatchingContactEventsForEventsList(name, EventsList);
-
-
-                        if (deleted == true) {
-                            System.out.println("\nThe contact is deleted successfully!");
-                        }else {
-                            System.out.println("\nThe contact is not found");
-                        }
-
-
+                    	//MASHAEL
+                    	deleteContact(ContactsList,EventsList);
                         break;
                     }
                     case 4:{
@@ -716,6 +724,7 @@ public class PhoneBook {
                         break;
                     }//end case 4
                     case 5: {
+                    	//MASHAEL
                         //print all events or appointments that share the same title or contact name
                             printEventDetails(EventsList);
                             break;
@@ -732,8 +741,9 @@ public class PhoneBook {
                         break;
                             }
                     case 7:{
+                    	//MASHAEL
                         System.out.println("\nAll Events list:\n");
-                        print_Events(EventsList);
+                        print_EventsAlphabetically(EventsList);
                         break;
                             }
                     case 8:{
