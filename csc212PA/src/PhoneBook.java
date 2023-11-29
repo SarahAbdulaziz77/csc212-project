@@ -294,7 +294,7 @@ public class PhoneBook {
         //if event exists
         Event existingEvent = SearchEventbyTitle(eventsList,event.getTitle()); //same title
         //same time and location
-        if ( ( event.getType() == 'E' ||  event.getType() == 'e') && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
+        if (  event.getType() == 'E' && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
             if ( contactsList.isEmpty()) {
                 System.out.println("could not schedule, there are no give contacts");
                 return false;
@@ -311,7 +311,7 @@ public class PhoneBook {
             return true;
         }
         //more than one contact in an appointment
-        if (event.getType() == 'a' || event.getType() == 'A' ) {
+        if ( event.getType() == 'A' ) {
             event.getEvent_contacts().FindFirst();
             if ( ! event.getEvent_contacts().last()) {
                 System.out.println("could not schedule, the appointment can take 1 contact only.");
@@ -646,7 +646,7 @@ public class PhoneBook {
                         //assigned to null to avoid error, will be changed
                         String title = null,location = null,dateAndTime = null,contact_name;
                         boolean validDateAndTime;
-                        LinkedList<Contact> givenContacts;
+                        LinkedList<Contact> givenContacts=new LinkedList<Contact>();;
                         Event event;
                         int choice4 = -1;
 
@@ -655,19 +655,16 @@ public class PhoneBook {
                             System.out.println("1.event");
                             System.out.println("2.appointment");
                             choice4 = keyboard.nextInt();
-                            givenContacts=new LinkedList<Contact>();
                             switch (choice4) {
                                 case 1: //event
                                 {
                                 	type='E';
-                                    //check if event already exist just add the contact to the list otherwise create it
                                     System.out.print("\nEnter event title:");
                                     // remove garbage
                                     keyboard.nextLine();
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contacts name separated by a comma:");
                                     contact_name = (String) keyboard.nextLine();
-                                    givenContacts.insert(ContactsList.getContact(contact_name));
                                     for (String name : contact_name.split(", ")) {
                                         givenContacts.insert(ContactsList.getContact(contact_name));
                                     }
@@ -676,7 +673,7 @@ public class PhoneBook {
                                     do {
                                         System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                         dateAndTime = keyboard.nextLine();
-                                    }while( validateDateAndTime(dateAndTime));
+                                    }while( !validateDateAndTime(dateAndTime));
                                     System.out.print("Enter event location:");
                                     location = keyboard.nextLine();
                                     break;
@@ -697,8 +694,7 @@ public class PhoneBook {
                                         System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                         dateAndTime = keyboard.nextLine();
                                         valid =validateDateAndTime(dateAndTime);
-                                        System.out.println(valid);
-                                        }while(valid);
+                                        }while(!valid);
                                     System.out.print("Enter appointment location:");
                                     location = keyboard.nextLine();
                                     break;
