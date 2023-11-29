@@ -422,6 +422,49 @@ public class PhoneBook {
             return false;
         }
     }
+    public static void printEventDetails(LinkedList<Event> EventsList) {
+    int SearchChoice2=0;
+    do {
+        System.out.println("Enter search criteria: ");
+        System.out.println("1.Contact name");
+        System.out.println("2.Event title");
+        SearchChoice2 = keyboard.nextInt();
+        switch (SearchChoice2) {
+            case 1:
+            	//this will print the first event found with that contact name we may change it
+                    System.out.println("\nEnter the contact name: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String ContactName = keyboard.nextLine();
+                    Event Eventfound1 = SearchEventbyName(EventsList, ContactName);
+                    if (Eventfound1 == null) {
+                        System.out.println(" Sorry Event not found. ");
+                    } else {
+                        System.out.println("Event found!");
+                        System.out.println(Eventfound1);
+                    }
+                    break;
+
+            case 2:
+                System.out.println("\nEnter the event title: ");
+                //remove garbage
+                keyboard.nextLine();
+                String EventTitle = keyboard.nextLine();
+                Event Eventfound2 = SearchEventbyTitle(EventsList, EventTitle);
+                if (Eventfound2 == null) {
+                    System.out.println(" Sorry Event not found. ");
+                } else {
+                    System.out.println("Event found!");
+                    System.out.println(Eventfound2);
+                }
+                break;
+            default:
+                System.out.println("Incorrect number please choose from 1-2!\n");
+
+             }//close inner switch
+       }while (SearchChoice2 <=0 || SearchChoice2>2);
+
+        }//end method
     //main method
     public static void main(String[] args) {
 
@@ -674,48 +717,7 @@ public class PhoneBook {
                     }//end case 4
                     case 5: {
                         //print all events or appointments that share the same title or contact name
-                        int SearchChoice2=0;
-                        do {
-                            System.out.println("Enter search criteria: ");
-                            System.out.println("1.Contact name");
-                            System.out.println("2.Event title");
-                            SearchChoice2 = keyboard.nextInt();
-                            switch (SearchChoice2) {
-                                case 1:
-                                	//this will print the first event found with that contact name we may change it
-                                        System.out.println("\nEnter the contact name: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String ContactName = keyboard.nextLine();
-                                        Event Eventfound1 = SearchEventbyName(EventsList, ContactName);
-                                        if (Eventfound1 == null) {
-                                            System.out.println(" Sorry Event not found. ");
-                                        } else {
-                                            System.out.println("Event found!");
-                                            System.out.println(Eventfound1);
-                                        }
-                                        
-                                    break;
-
-                                case 2:
-                                    System.out.println("\nEnter the event title: ");
-                                    //remove garbage
-                                    keyboard.nextLine();
-                                    String EventTitle = keyboard.nextLine();
-                                    Event Eventfound2 = SearchEventbyTitle(EventsList, EventTitle);
-                                    if (Eventfound2 == null) {
-                                        System.out.println(" Sorry Event not found. ");
-                                    } else {
-                                        System.out.println("Event found!");
-                                        System.out.println(Eventfound2);
-                                    }
-                                    break;
-                                default:
-                                    System.out.println("Incorrect number please choose from 1-2!\n");
-
-                                 }//close inner switch
-                           }while (SearchChoice2 <=0 || SearchChoice2>2);
-
+                            printEventDetails(EventsList);
                             break;
                             } //close case 5
 
