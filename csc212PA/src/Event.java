@@ -71,11 +71,11 @@ public class Event {
 		    event_contacts.FindFirst();
 		    if(!event_contacts.isEmpty()) {
 		    while(!event_contacts.last()) 
-		    	details=event_contacts.Retrieve().toString();
+		    	details=details+event_contacts.Retrieve().toString();
 		    //last contact
-		    details=event_contacts.Retrieve().toString();
+		    details=details+event_contacts.Retrieve().toString();
 		    }
-		    details="\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
+		    details=details+"\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
 		    return details;
 		}
 		else if(type=='A') {
@@ -83,11 +83,11 @@ public class Event {
 		    event_contacts.FindFirst();
 		    if(!event_contacts.isEmpty()) {
 		    while(!event_contacts.last()) 
-		    	details=event_contacts.Retrieve().toString();
+		    	details=details+event_contacts.Retrieve().toString();
 		    //last contact
-		    details=event_contacts.Retrieve().toString();
+		    details=details+event_contacts.Retrieve().toString();
 		    }
-		    details="\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
+		    details=details+"\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
 		    return details;
 		}//end A case
 		else return "";
@@ -95,4 +95,3 @@ public class Event {
 	
 }
 	
-}
