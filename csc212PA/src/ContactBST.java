@@ -300,18 +300,18 @@ public class ContactBST {
         if (root == null){
             return SameAddress;
         }
-        SearchByEmail(root, SameAddress, address);
+        SearchByAddress(root, SameAddress, address);
         return SameAddress;
     }
     private void SearchByAddress(BSTNode<Contact> p ,LinkedList<Contact> SameAddress,String address){
         if (p == null){
             return ;
         }
-        SearchByEmail(p.left, SameAddress, address);
-        if (p.data.getEmail().equalsIgnoreCase(address)){
+        SearchByAddress(p.left, SameAddress, address);
+        if (p.data.getAddress().equalsIgnoreCase(address)){
             SameAddress.insert(p.data);
         }
-        SearchByEmail(p.right, SameAddress, address);
+        SearchByAddress(p.right, SameAddress, address);
     }
 
     //SearchByBirthday
@@ -320,19 +320,20 @@ public class ContactBST {
         if (root == null){
             return SameBirthday;
         }
-        SearchByEmail(root, SameBirthday, birthday);
+        SearchByBirthday(root, SameBirthday, birthday);
         return SameBirthday;
     }
     private void SearchByBirthday(BSTNode<Contact> p ,LinkedList<Contact> SameBirthday,String birthday){
         if (p == null){
             return ;
         }
-        SearchByEmail(p.left, SameBirthday, birthday);
-        if (p.data.getEmail().equalsIgnoreCase(birthday)){
+        SearchByBirthday(p.left, SameBirthday, birthday);
+        if (p.data.getBirthday().equalsIgnoreCase(birthday)){
             SameBirthday.insert(p.data);
         }
-        SearchByEmail(p.right, SameBirthday, birthday);
+        SearchByBirthday(p.right, SameBirthday, birthday);
     }
+
 
     
     }
