@@ -666,42 +666,35 @@ public class PhoneBook {
                                     keyboard.nextLine();
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contacts name separated by a comma:");
-                                    contact_name = (String) keyboard.nextLine();
+                                    contact_name = keyboard.nextLine();
                                     
-                                    
-                                    
-                                    // Initialize array with length of names minus 2 commas
-                                    /*The - 2 in the initialization of the nameArray is to account for the two commas
-                                    that are not part of the names. There are two commas in the string names, and we
-                                    want to store the names in an array, so we need to initialize the array with a length
-                                    that is two less than the length of the string. This ensures that each element in the 
-                                    array will correspond to a name in the string.*/
-                                    String[] nameArray = new String[contact_name.length() - 2]; 
-
-                                    int start = 0;
-                                    int end = 0;
-
-                                    for (int i = 0; i < nameArray.length; i++) {
-                                        while (end < contact_name.length() && contact_name.charAt(end) != ',') {
-                                            end++;
-                                        }
-
-                                        nameArray[i] = contact_name.substring(start, end);
-                                        start = end + 1;
-                                        end++;
+                                    String name; 
+                                    int end = contact_name.indexOf(','); 
+                                    while(end!= -1) { 
+                                     name=contact_name.substring(0,end); 
+                                     if (name.indexOf(' ') == -1) {
+                                     	name = name.concat(" ");
+                                     }
+                                     givenContacts.insert(ContactsList.SearchByName(name)); 
+                                     contact_name=contact_name.substring(end+1); 
+                                     System.out.println("im adding1");
+                                     end=contact_name.indexOf(','); 
+                                    } 
+                                    //if it was only one contact , or in case of last contact in prev loop 
+                                    if(end==-1 && contact_name.length()>0) { 
+                                     name=contact_name.substring(0); 
+                                     if (name.indexOf(' ') == -1) {
+                                      	name = name.concat(" ");
+                                      }
+                                  givenContacts.insert(ContactsList.SearchByName(name)); 
+                                  System.out.println("im adding2");
                                     }
                                     
-                                    for ( int i = 0 ; i<nameArray.length;i++) {
-                                    	if (nameArray[i].indexOf(' ') == -1) {
-                                    		nameArray[i] = nameArray[i].concat(" ");
-                                        }
-                                    	
-                                    	givenContacts.insert(ContactsList.SearchByName(nameArray[i]));
-                                    }
 
                                     
+                                    
 
-
+                                    
                                     do {
                                         System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
                                         dateAndTime = keyboard.nextLine();
