@@ -68,10 +68,13 @@ public class Event {
 		String details ="";
 		if(type=='E') {
 			details= "Event title:" + title + "\nContacts names:";
+			System.out.println("im in tostring1");
 		    event_contacts.FindFirst();
 		    if(!event_contacts.isEmpty()) {
-		    while(!event_contacts.last()) 
+		    while(!event_contacts.last()) {
 		    	details=details+event_contacts.Retrieve().toString();
+		    	event_contacts.FindNext();
+		    }
 		    //last contact
 		    details=details+event_contacts.Retrieve().toString();
 		    }
@@ -82,9 +85,7 @@ public class Event {
 			details= "Event title:" + title + "\nContact name:";
 		    event_contacts.FindFirst();
 		    if(!event_contacts.isEmpty()) {
-		    while(!event_contacts.last()) 
-		    	details=details+event_contacts.Retrieve().toString();
-		    //last contact
+		    //only contact
 		    details=details+event_contacts.Retrieve().toString();
 		    }
 		    details=details+"\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
