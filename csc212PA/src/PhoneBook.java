@@ -21,99 +21,98 @@ public class PhoneBook {
             System.out.println(EventsList.Retrieve());
         }
     }
-//SARAH !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public static LinkedList<Contact> PrintContactsByFirstName(String firstName){ 
-    	//it will return the contacts Linkedlist that share the first name
-        ContactBST Contactslist = new ContactBST();
-        return Contactslist.SearchByFirstName(firstName);
-    }
-   /* public static Contact SearchForName(LinkedList<Contact> ContactsList, String name) {
-            if (ContactsList.isEmpty()) {
-                return null;
-            } else {
-                ContactsList.FindFirst();
-                while (!ContactsList.last()) {
-                    if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name)) {
-                        return ContactsList.Retrieve();
+public static void SearchByCriteria(ContactBST ContactsList) {
+        LinkedList<Contact> Contactfound = new LinkedList<Contact>();
+        int SearchChoice = 0;
+        do {
+
+            System.out.println("Enter search criteria: ");
+            System.out.println("1.Name");
+            System.out.println("2.Phone Number");
+            System.out.println("3.Email Address ");
+            System.out.println("4.Address ");
+            System.out.println("5.Birthday");
+            System.out.println("6.Exit ");
+            System.out.println("Enter your choice: ");
+            SearchChoice = keyboard.nextInt();
+            switch (SearchChoice) {
+                case 1:
+                    System.out.println("\nEnter the contact's name: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String name = keyboard.nextLine();
+                    Contact Namefound = ContactsList.SearchByName(name);
+                    if (Namefound == null) {
+                        System.out.println("Sorry,this Contact name is not exist!");
+                    } else {
+                        System.out.println("Contact found!");
+                        Namefound.printContact();
                     }
-                    ContactsList.FindNext();
-                }
-                if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(name))
-                    return ContactsList.Retrieve();
-                return null;
-            }
-        }
-
-        public static Contact SearchForPhoneNumber(LinkedList<Contact> ContactsList, String number) {
-            if (ContactsList.isEmpty()) {
-                return null;
-            } else {
-                ContactsList.FindFirst();
-                while (!ContactsList.last()) {
-                    if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(number)) {
-                        return ContactsList.Retrieve();
+                    break;
+                case 2:
+                    System.out.println("\nEnter the contact's Phone Number: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String PhoneNumber = keyboard.nextLine();
+                    Contact PhoneFound = ContactsList.SearchByPhoneNumber(PhoneNumber);
+                    if (PhoneFound == null) {
+                        System.out.println("Sorry,this Contact phone number is not exist!");
+                    } else {
+                        System.out.println("Contact found!");
+                        PhoneFound.printContact();
                     }
-                    ContactsList.FindNext();
+                    break;
+                case 3:
+                    System.out.println("\nEnter the contact's Email Address: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String Email = keyboard.nextLine();
+                    Contactfound = ContactsList.SearchByEmail(Email);
+                    if (Contactfound.isEmpty()) {
+                        System.out.println("Sorry,this Contact email address is not exist!");
+                    } else {
+                        System.out.println("Contact found!");
+                        PrintListForAllContacts(Contactfound);
+                    }
+                    break;
+                case 4:
+                    System.out.println("\nEnter the contact's Address: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String Address = keyboard.nextLine();
+                    Contactfound = ContactsList.SearchByAddress(Address);
+                    if (Contactfound.isEmpty()) {
+                        System.out.println("Sorry,this Contact address is not exist!");
+                    } else {
+                        System.out.println("Contact found!");
+                        PrintListForAllContacts(Contactfound);
+                    }
+                    break;
+                case 5:
+                    System.out.println("\nEnter the contact's Birthday: ");
+                    //remove garbage
+                    keyboard.nextLine();
+                    String Birthday = keyboard.nextLine();
+                    Contactfound = ContactsList.SearchByBirthday(Birthday);
+                    if (Contactfound.isEmpty()) {
+                        System.out.println("Sorry,this Contact birthday is not exist!");
+                    } else {
+                        System.out.println("Contact found!");
+                        PrintListForAllContacts(Contactfound);
+                    }
+                    break;
+                case 6: {
+                    System.out.println("GoodBye!");
                 }
-                if (ContactsList.Retrieve().getFullName().equalsIgnoreCase(number))
-                    return ContactsList.Retrieve();
-                return null;
-            }
-        }
+                    break;
+                default:
+                    System.out.println("Incorrect number please choose from 1-6!\n");
+            } //close switch
 
-        public static LinkedList<Contact> SearchForEmail(LinkedList<Contact> ContactsList, String email) {
-            LinkedList<Contact> EmailFound = new LinkedList<Contact>();
-            if (ContactsList.isEmpty()) {
-                return EmailFound;
-            } else {
-                ContactsList.FindFirst();
-                while (!ContactsList.last()) {
-                    if (ContactsList.Retrieve().getEmail().equalsIgnoreCase(email))
-                        EmailFound.insert(ContactsList.Retrieve());
-                    ContactsList.FindNext();
-                }
-                if (ContactsList.Retrieve().getEmail().equalsIgnoreCase(email))
-                    EmailFound.insert(ContactsList.Retrieve());
+        } while (SearchChoice >= 1 && SearchChoice <= 5 && SearchChoice != 6);
 
-                return EmailFound;
-            }
-        }
+    } //close SearchByCriteria
 
-        public static LinkedList<Contact> SearchForAddress(LinkedList<Contact> ContactsList, String address) {
-            LinkedList<Contact> AddressFound = new LinkedList<Contact>();
-            if (ContactsList.isEmpty()) {
-                return AddressFound;
-            } else {
-                ContactsList.FindFirst();
-                while (!ContactsList.last()) {
-                    if (ContactsList.Retrieve().getAddress().equalsIgnoreCase(address))
-                        AddressFound.insert(ContactsList.Retrieve());
-                    ContactsList.FindNext();
-                }
-                if (ContactsList.Retrieve().getAddress().equalsIgnoreCase(address))
-                    AddressFound.insert(ContactsList.Retrieve());
-
-                return AddressFound;
-            }
-        }
-
-        public static LinkedList<Contact> SearchForBirthday(LinkedList<Contact> ContactsList, String birthday) {
-            LinkedList<Contact> BirthdayFound = new LinkedList<Contact>();
-            if (ContactsList.isEmpty()) {
-                return BirthdayFound;
-            } else {
-                ContactsList.FindFirst();
-                while (!ContactsList.last()) {
-                    if (ContactsList.Retrieve().getBirthday().equalsIgnoreCase(birthday))
-                        BirthdayFound.insert(ContactsList.Retrieve());
-                    ContactsList.FindNext();
-                }
-                if (ContactsList.Retrieve().getBirthday().equalsIgnoreCase(birthday))
-                    BirthdayFound.insert(ContactsList.Retrieve());
-
-                return BirthdayFound;
-            }
-        }
 *///sarah searches^^
      //MASHAEL
     //SearchEventByContactName method
@@ -546,97 +545,13 @@ public class PhoneBook {
                     	addContact( ContactsList);
                     	break;
                          }
-                 case 2: 
+                 case 2: {
                 	 /*SARAH{
-                            LinkedList<Contact> Contactfound = new LinkedList<Contact>();
-                            int SearchChoice=0;
-                            do {
+                           
+                        SearchByCriteria(ContactsList);
 
-                                System.out.println("Enter search criteria: ");
-                                System.out.println("1.Name");
-                                System.out.println("2.Phone Number");
-                                System.out.println("3.Email Address ");
-                                System.out.println("4.Address ");
-                                System.out.println("5.Birthday");
-                                System.out.println("Enter your choice: ");
-                                SearchChoice = keyboard.nextInt();
-                                switch (SearchChoice) {
-                                    case 1:
-                                        System.out.println("\nEnter the contact's name: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String name = keyboard.nextLine();
-                                        Contact Namefound = SearchForName(ContactsList, name);
-                                        if (Namefound==null){
-                                            System.out.println("Sorry,this Contact name is not exist!");
-                                        }
-                                        else {
-                                            System.out.println("Contact found!");
-                                            Namefound.printContact();
-                                        }
-                                        break;
-                                    case 2:
-                                        System.out.println("\nEnter the contact's Phone Number: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String PhoneNumber = keyboard.nextLine();
-                                        Contact Phonefound= SearchForPhoneNumber(ContactsList, PhoneNumber);
-                                        if (Phonefound==null){
-                                            System.out.println("Sorry,this phone number is not exist! ");
-                                        }
-                                        else {
-                                            Phonefound.printContact();
-                                        }
-
-                                        break;
-                                    case 3:
-                                        System.out.println("\nEnter the contact's Email Address: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String Email = keyboard.nextLine();
-                                            Contactfound = SearchForEmail(ContactsList, Email);
-                                            if (Contactfound.isEmpty()){
-                                                System.out.println("Contact is NOT found ");
-                                            }
-                                            else {
-                                                PrintListForAllContacts(Contactfound);
-                                            }
-                                        break;
-                                    case 4:
-                                        System.out.println("\nEnter the contact's Address: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String Address = keyboard.nextLine();
-                                        Contactfound = SearchForAddress(ContactsList, Address);
-                                        if (Contactfound.isEmpty()){
-                                            System.out.println("Contact is NOT found ");
-                                        }
-                                        else {
-                                            PrintListForAllContacts(Contactfound);
-                                        }
-
-                                        break;
-                                    case 5:
-                                        System.out.println("\nEnter the contact's Birthday date: ");
-                                        //remove garbage
-                                        keyboard.nextLine();
-                                        String Birthday = keyboard.nextLine();
-                                        Contactfound = SearchForBirthday(ContactsList, Birthday);
-                                        if (Contactfound.isEmpty()){
-                                            System.out.println("Contact is NOT found ");
-                                        }
-                                        else {
-                                            PrintListForAllContacts(Contactfound);
-                                        }
-                                        break;
-                                    default:
-                                        System.out.println("Incorrect number please choose from 1-5!\n");
-                                } //close inner switch
-                            } while (SearchChoice <=0 || SearchChoice>6);
-                            break;
-                        }// close case2
-
-                */
+                        break;
+                    }
                     
                     case 3:{
                     	//MASHAEL
@@ -753,17 +668,18 @@ public class PhoneBook {
                             printEventDetails(EventsList);
                             break;
                             } //close case 5
-
-                    case 6:
+		case 6:
                     {
                         System.out.println("\nEnter the first name: ");
                         //remove garbage
                         keyboard.nextLine();
                         String firstName = keyboard.nextLine();
                         //now print all the contacts info with that given first name
-                        PrintContactsByFirstName(firstName);
+                        LinkedList<Contact> shareName= ContactsList.FindContactsByFirstName(firstName);
+                        PrintListForAllContacts(shareName);
                         break;
-                            }
+                    }
+                   
                     case 7:{
                     	//MASHAEL
                         System.out.println("\nAll Events list:\n");
