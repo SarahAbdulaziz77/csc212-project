@@ -65,17 +65,34 @@ public class Event {
 
 	@Override
 	public String toString() {
-		if(type=='E')
-			return "Event title:" + title + 
-					"\nContacts names:" +event_contacts +
-					"\nEvent date and time:" + dateAndTime  
-					+ "\nEvent location:" + location ;	
-		else if(type=='A')
-			return "Event title:" + title + 
-					"\nContact name:" +event_contacts +
-					"\nEvent date and time:" + dateAndTime  
-					+ "\nEvent location:" + location ;
+		String details ="";
+		if(type=='E') {
+			details= "Event title:" + title + "\nContacts names:";
+		    event_contacts.FindFirst();
+		    if(!event_contacts.isEmpty()) {
+		    while(!event_contacts.last()) 
+		    	details=event_contacts.Retrieve().toString();
+		    //last contact
+		    details=event_contacts.Retrieve().toString();
+		    }
+		    details="\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
+		    return details;
+		}
+		else if(type=='A') {
+			details= "Event title:" + title + "\nContact name:";
+		    event_contacts.FindFirst();
+		    if(!event_contacts.isEmpty()) {
+		    while(!event_contacts.last()) 
+		    	details=event_contacts.Retrieve().toString();
+		    //last contact
+		    details=event_contacts.Retrieve().toString();
+		    }
+		    details="\nEvent date and time:" + dateAndTime  + "\nEvent location:" + location ;	
+		    return details;
+		}//end A case
 		else return "";
 	}
+	
+}
 	
 }
