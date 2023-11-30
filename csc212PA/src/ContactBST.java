@@ -216,21 +216,123 @@ public class ContactBST {
 
 
     }
-public LinkedList<Contact> SearchByFirstName(String name){
+    public LinkedList<Contact> SearchByFirstName(String name){
         LinkedList<Contact> matching_contacts = new LinkedList<>(); // we will store the matching contacts in it
         if (root==null)
             return matching_contacts;
-        SearchByFirstName(root,name,matching_contacts); // the private one
+        SearchByFirstName(root,matching_contacts,name); // the private one
         return matching_contacts;
     }
-    private void SearchByFirstName(BSTNode<Contact> p , String name, LinkedList<Contact> matching_contacts){
+    private void SearchByFirstName(BSTNode<Contact> p , LinkedList<Contact> matching_contacts, String name){
         if(p==null)
             return;
-        SearchByFirstName(p.left,name,matching_contacts);
+        SearchByFirstName(p.left,matching_contacts,name);
         String CurrentFullName= p.key;
         String getFirstName =  CurrentFullName.substring(0, CurrentFullName.indexOf(' ')); // to get only the first name
         if (getFirstName.equalsIgnoreCase(name)) {
-            matching_contacts.insert(p.data); }
-        SearchByFirstName(p.right,name,matching_contacts);
+            matching_contacts.insert( p.data); }
+        SearchByFirstName(p.right,matching_contacts,name);
     }
+    public LinkedList<Contact> FindContactsByFirstName(String firstName){
+        //it will return the contacts Linkedlist that share the first name
+        LinkedList<Contact> matching_contacts = SearchByFirstName(firstName);
+        return matching_contacts;
+
+    }
+//SEARCHS:)
+
+    //SearchByName
+    public Contact SearchByName(String name){
+        return SearchByName(root, name);
+    }
+    private Contact SearchByName(BSTNode<Contact> p, String name){
+        if (p == null){
+            return null;
+        }
+        if (p.data.getFullName().equalsIgnoreCase(name)){
+            return p.data;
+        }
+        Contact LeftResult = SearchByName(p.left, name);
+        Contact RightResult = SearchByName(p.right, name);
+
+        return (LeftResult!=null)? LeftResult: RightResult;
+    }
+
+//SearchByPhoneNumber
+    public Contact SearchByPhoneNumber(String number){
+        return SearchByPhoneNumber(root, number);
+ }
+    private Contact SearchByPhoneNumber(BSTNode<Contact> p, String number){
+        if (p == null){
+            return null;
+        }
+        if (p.data.getPhoneNumber().equals(number)){
+            return p.data;
+        }
+        Contact leftResult = SearchByPhoneNumber(p.left,number);
+        Contact RightResult = SearchByPhoneNumber(p.right, number);
+
+        return (leftResult!=null)? leftResult: RightResult; //return the result if found
+
+ }
+ //SearchByEmail
+ public LinkedList<Contact> SearchByEmail(String email){
+        LinkedList<Contact> SameEmail = new LinkedList<>();
+        if (root == null){
+            return SameEmail;
+        }
+        SearchByEmail(root, SameEmail, email);
+        return SameEmail;
+ }
+ private void SearchByEmail(BSTNode<Contact> p ,LinkedList<Contact> SameEmail,String email){
+        if (p == null){
+            return ;
+        }
+       SearchByEmail(p.left, SameEmail, email);
+        if (p.data.getEmail().equalsIgnoreCase(email)){
+            SameEmail.insert(p.data);
+        }
+        SearchByEmail(p.right, SameEmail, email);
+ }
+ //SearchByAddress
+    public LinkedList<Contact> SearchByAddress(String address){
+        LinkedList<Contact> SameAddress = new LinkedList<>();
+        if (root == null){
+            return SameAddress;
+        }
+        SearchByEmail(root, SameAddress, address);
+        return SameAddress;
+    }
+    private void SearchByAddress(BSTNode<Contact> p ,LinkedList<Contact> SameAddress,String address){
+        if (p == null){
+            return ;
+        }
+        SearchByEmail(p.left, SameAddress, address);
+        if (p.data.getEmail().equalsIgnoreCase(address)){
+            SameAddress.insert(p.data);
+        }
+        SearchByEmail(p.right, SameAddress, address);
+    }
+
+    //SearchByBirthday
+    public LinkedList<Contact> SearchByBirthday(String birthday){
+        LinkedList<Contact> SameBirthday = new LinkedList<>();
+        if (root == null){
+            return SameBirthday;
+        }
+        SearchByEmail(root, SameBirthday, birthday);
+        return SameBirthday;
+    }
+    private void SearchByBirthday(BSTNode<Contact> p ,LinkedList<Contact> SameBirthday,String birthday){
+        if (p == null){
+            return ;
+        }
+        SearchByEmail(p.left, SameBirthday, birthday);
+        if (p.data.getEmail().equalsIgnoreCase(birthday)){
+            SameBirthday.insert(p.data);
+        }
+        SearchByEmail(p.right, SameBirthday, birthday);
+    }
+
+    
     }
