@@ -67,9 +67,11 @@ public class Event {
 	public String toString() {
 		String details ="";
 		if(type=='E') {
-			details= "Event title:" + title + "\nContacts names:";
+			details= "Event title:" + title;
 		    event_contacts.FindFirst();
 		    if(!event_contacts.isEmpty()) {
+		    	if(!event_contacts.last())
+		    		details="\nContacts names:";
 		    while(!event_contacts.last()) {
 		    	details=details+"\nContact name: " + event_contacts.Retrieve().getFullName();
 		    	event_contacts.FindNext();
