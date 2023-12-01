@@ -176,7 +176,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
        }
 
     */
-	/* public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
+	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
             if (ContactsList.isEmpty()){
                 System.out.println("Sorry, the list is empty");
             }
@@ -193,7 +193,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             }
 
         }
-*/
+
     //MASHAEL
     public static void deleteMatchingContactEventsForEventsList(String name, LinkedList<Event> Events) {
         if(Events.isEmpty()) {
@@ -405,7 +405,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     if (Eventfound1 == null) {
                         System.out.println(" Sorry Event not found. ");
                     } else {
-                        System.out.println("Event found!");
+                        System.out.println("\nEvent found!");
                         System.out.println(Eventfound1);
                     }
                     break;
@@ -419,7 +419,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                 if (Eventfound2 == null) {
                     System.out.println(" Sorry Event not found. ");
                 } else {
-                    System.out.println("Event found!");
+                    System.out.println("\nEvent found!");
                     System.out.println(Eventfound2);
                 }
                 break;
@@ -626,7 +626,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                             //either contacts not found or you gave too many contacts for an appointment.\n");
                         }else {
                             // if there is a conflict the method isConflict will explain the conflict with a print method
-                            System.out.println("Couldnt schedule, There is a conflict.");
+                            System.out.println("\nCouldnt schedule, There is a conflict.\n");
                         }
                         break;
                     }//end case 4
@@ -644,7 +644,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         String firstName = keyboard.nextLine();
                         //now print all the contacts info with that given first name
                         LinkedList<Contact> shareName= ContactsList.FindContactsByFirstName(firstName);
-                        //PrintListForAllContacts(shareName);
+                        PrintListForAllContacts(shareName);
                         break;
                     }
                    
