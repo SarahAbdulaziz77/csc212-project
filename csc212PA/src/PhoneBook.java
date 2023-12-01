@@ -113,7 +113,8 @@ public static void SearchByCriteria(ContactBST ContactsList) {
 
     } //close SearchByCriteria
 
-*///sarah searches^^
+///sarah searches^^
+
      //MASHAEL
     //SearchEventByContactName method
       public static Event SearchEventbyName (LinkedList<Event> Events, String name) {
@@ -274,52 +275,20 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             System.out.println("could not schedule, there are no give contacts");
             return false;
         }
-
+        
         //check if contact exist in phone book bst
         contactsList.FindFirst();
         while (!contactsList.last()) {
-            if (!(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
+            if (contactsList.Retrieve()==null || !(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
                 System.out.println("could not schedule, due to contact(s) unavailability");
                 return false;
             }
             contactsList.FindNext();
         }
-        if (!(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
+        if (contactsList.Retrieve()==null || !(Contactstree.findkey(contactsList.Retrieve().getFullName()))) {
             System.out.println("could not schedule, due to contact(s) unavailability");
             return false;
         }
-
-
-        //if event exists
-       /* Event existingEvent = SearchEventbyTitle(eventsList,event.getTitle()); //same title
-        //same time and location
-        if (  event.getType() == 'E' && existingEvent.getDateAndTime().equals(event.getDateAndTime()) && existingEvent.getLocation().equals(event.getLocation()))  {
-            if ( contactsList.isEmpty()) {
-                System.out.println("could not schedule, there are no give contacts");
-                return false;
-            }
-
-
-            contactsList.FindFirst();
-            while (!contactsList.last()) {
-                event.getEvent_contacts().insert(contactsList.Retrieve());
-                contactsList.FindNext();
-            }
-            event.getEvent_contacts().insert(contactsList.Retrieve());
-            //System.out.println("added contacts to an exisiting event");
-            return true;
-        }*/
-        
-        
-        //more than one contact in an appointment
-        if ( event.getType() == 'A' ) {
-            event.getEvent_contacts().FindFirst();
-            if ( ! event.getEvent_contacts().last()) {
-                System.out.println("could not schedule, the appointment can take 1 contact only.");
-                return false;
-            }
-        }
-
 
         //adding event/appointment
 
@@ -327,7 +296,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
         // If the eventsList is empty
         if ( eventsList.isEmpty() ) {
             eventsList.insert(event);
-            //contact.getContact_events().insert(event);
             return true;
         }
         else {
@@ -343,7 +311,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                 Event moved_event=eventsList.Retrieve();
                 eventsList.update(event);
                 eventsList.insert(moved_event);
-                //contact.getContact_events().insert(event);
                 return true;
             }
 
@@ -360,7 +327,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     Event moved_event=eventsList.Retrieve();
                     eventsList.update(event);
                     eventsList.insert(moved_event);
-                    //contact.getContact_events().insert(event);
                     return true;
                 }
                 eventsList.FindNext();
@@ -376,12 +342,10 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                 Event moved_event=eventsList.Retrieve();
                 eventsList.update(event);
                 eventsList.insert(moved_event);
-                //contact.getContact_events().insert(event);
                 return true;
             }
             //if it should be last
             eventsList.insert(event);
-            //contact.getContact_events().insert(event);
             return true;
         }
     }
@@ -546,7 +510,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     	break;
                          }
                  case 2: {
-                	 /*SARAH{
+                	 //SARAH
                            
                         SearchByCriteria(ContactsList);
 
@@ -561,7 +525,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     case 4:{
                         char type='N';
                         //assigned to null to avoid error, will be changed
-                        String title = null,location = null,dateAndTime = null,contact_name;
+                        String title = null,location = null,dateAndTime = null,contact_name=null;
                         boolean validDateAndTime;
                         LinkedList<Contact> givenContacts=new LinkedList<Contact>();;
                         Event event;
@@ -592,7 +556,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                                      }
                                      givenContacts.insert(ContactsList.SearchByName(name)); 
                                      contact_name=contact_name.substring(end+1); 
-                                     System.out.println("im adding1");
                                      end=contact_name.indexOf(','); 
                                     } 
                                     //if it was only one contact , or in case of last contact in prev loop 
@@ -602,13 +565,8 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                                       	name = name.concat(" ");
                                       }
                                   givenContacts.insert(ContactsList.SearchByName(name)); 
-                                  System.out.println("im adding2");
                                     }
                                     
-
-                                    
-                                    
-
                                     
                                     do {
                                         System.out.print("Enter event date and time(MM/DD/YYYY HH:MM):");
@@ -627,6 +585,11 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                                     title = keyboard.nextLine();
                                     System.out.print("Enter contact name:");
                                     contact_name = keyboard.nextLine();
+                                    //user enters more than 1 contact
+                                    if (contact_name.indexOf(',') != -1) {
+                                    	break;
+                                    }
+                                    //to ensure finding the contact in the tree
                                     if (contact_name.indexOf(' ') == -1) {
                                     	contact_name = contact_name.concat(" ");
                                     }
@@ -646,6 +609,11 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                                     System.out.println("Incorrect number please choose from 1-2!\n");
                             }//close inner switch
                         }while (choice4 <1 || choice4 > 2);
+                        //user enters more than 1 contact in an appointment
+                        if (type=='A' && contact_name.indexOf(',') != -1) {
+                        	System.out.println("could not schedule, the appointment take 1 contact only\n");
+                        	break;
+                        }
 
                         event= new Event(type,title,givenContacts, dateAndTime, location);
                         //isConflict
@@ -676,7 +644,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         String firstName = keyboard.nextLine();
                         //now print all the contacts info with that given first name
                         LinkedList<Contact> shareName= ContactsList.FindContactsByFirstName(firstName);
-                        PrintListForAllContacts(shareName);
+                        //PrintListForAllContacts(shareName);
                         break;
                     }
                    
