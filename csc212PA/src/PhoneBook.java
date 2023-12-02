@@ -26,31 +26,30 @@ public static void SearchByCriteria(ContactBST ContactsList) {
         int SearchChoice = 0;
         do {
 
-            System.out.println("Enter search criteria: ");
+            System.out.println("\nEnter search criteria: ");
             System.out.println("1.Name");
             System.out.println("2.Phone Number");
             System.out.println("3.Email Address ");
             System.out.println("4.Address ");
             System.out.println("5.Birthday");
-            System.out.println("6.Exit ");
-            System.out.println("Enter your choice: ");
+            System.out.print("\nEnter your choice: ");
             SearchChoice = keyboard.nextInt();
             switch (SearchChoice) {
                 case 1:
-                    System.out.println("\nEnter the contact's name: ");
+                    System.out.print("\nEnter the contact's name: ");
                     //remove garbage
                     keyboard.nextLine();
                     String name = keyboard.nextLine();
                     Contact Namefound = ContactsList.SearchByName(name);
                     if (Namefound == null) {
-                        System.out.println("Sorry,this Contact name is not exist!");
+                        System.out.println("\nSorry,this Contact name does not exist!");
                     } else {
-                        System.out.println("Contact found!");
+                        System.out.println("\nContact found!");
                         Namefound.printContact();
-                    }
+                        System.out.println();                    }
                     break;
                 case 2:
-                    System.out.println("\nEnter the contact's Phone Number: ");
+                    System.out.print("\nEnter the contact's Phone Number: ");
                     //remove garbage
                     keyboard.nextLine();
                     String PhoneNumber = keyboard.nextLine();
@@ -63,7 +62,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     }
                     break;
                 case 3:
-                    System.out.println("\nEnter the contact's Email Address: ");
+                    System.out.print("\nEnter the contact's Email Address: ");
                     //remove garbage
                     keyboard.nextLine();
                     String Email = keyboard.nextLine();
@@ -76,7 +75,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     }
                     break;
                 case 4:
-                    System.out.println("\nEnter the contact's Address: ");
+                    System.out.print("\nEnter the contact's Address: ");
                     //remove garbage
                     keyboard.nextLine();
                     String Address = keyboard.nextLine();
@@ -89,7 +88,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     }
                     break;
                 case 5:
-                    System.out.println("\nEnter the contact's Birthday: ");
+                    System.out.print("\nEnter the contact's Birthday: ");
                     //remove garbage
                     keyboard.nextLine();
                     String Birthday = keyboard.nextLine();
@@ -101,19 +100,13 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         PrintListForAllContacts(Contactfound);
                     }
                     break;
-                case 6: {
-                    System.out.println("GoodBye!");
-                }
-                    break;
                 default:
                     System.out.println("Incorrect number please choose from 1-6!\n");
             } //close switch
 
-        } while (SearchChoice >= 1 && SearchChoice <= 5 && SearchChoice != 6);
+        } while (SearchChoice < 1 || SearchChoice > 5);
 
     } //close SearchByCriteria
-
-///sarah searches^^
 
      //MASHAEL
     //SearchEventByContactName method
@@ -161,21 +154,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             return null;
         }
     }
-
-    /*public static void ContactsShareEvent (Event event) {
-        LinkedList<Contact> ContactsList = event.getEvent_contacts();
-        if (!ContactsList.isEmpty()) {
-            ContactsList.FindFirst();
-            while(!ContactsList.last()) {
-                System.out.println("contact name : " + ContactsList.Retrieve().getFullName())  ;
-                ContactsList.FindNext();
-            }
-            System.out.println("contact name : " + ContactsList.Retrieve().getFullName())  ;
-        }
-
-       }
-
-    */
 	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
             if (ContactsList.isEmpty()){
                 System.out.println("Sorry, the list is empty");
@@ -390,14 +368,14 @@ public static void SearchByCriteria(ContactBST ContactsList) {
     public static void printEventDetails(LinkedList<Event> EventsList) {
     int SearchChoice2=0;
     do {
-        System.out.println("Enter search criteria: ");
+        System.out.println("\nEnter search criteria: ");
         System.out.println("1.Contact name");
         System.out.println("2.Event title");
+        System.out.print("\nEnter your choice:");
         SearchChoice2 = keyboard.nextInt();
         switch (SearchChoice2) {
             case 1:
-			//this methods print all events that a contact is involved in
-            	                   System.out.println("\nEnter the contact name: ");
+                    System.out.print("\nEnter the contact name: ");
                     //remove garbage
                     keyboard.nextLine();
                     String ContactName = keyboard.nextLine();
@@ -448,7 +426,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                    
                     break;
             case 2:
-                System.out.println("\nEnter the event title: ");
+                System.out.print("\nEnter the event title: ");
                 //remove garbage
                 keyboard.nextLine();
                 String EventTitle = keyboard.nextLine();
@@ -572,6 +550,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                             System.out.println("\nEnter type: ");
                             System.out.println("1.event");
                             System.out.println("2.appointment");
+                            System.out.print("\nEnter your choice:");
                             choice4 = keyboard.nextInt();
                             switch (choice4) {
                                 case 1: //event
@@ -675,7 +654,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                             } //close case 5
 		case 6:
                     {
-                        System.out.println("\nEnter the first name: ");
+                        System.out.print("\nEnter the first name: ");
                         //remove garbage
                         keyboard.nextLine();
                         String firstName = keyboard.nextLine();
@@ -692,7 +671,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         break;
                             }
                     case 8:{
-                        System.out.println("GoodBye!");
+                        System.out.println("\nGoodBye!");
                         break;
                            }
                        default:
@@ -708,4 +687,4 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             }
         }while(choice!=8);
     }//end main
-}
+} 
