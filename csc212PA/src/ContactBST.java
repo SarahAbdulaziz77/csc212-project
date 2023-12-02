@@ -236,6 +236,8 @@ public class ContactBST {
     public LinkedList<Contact> FindContactsByFirstName(String firstName){
         //it will return the contacts Linkedlist that share the first name
         LinkedList<Contact> matching_contacts = SearchByFirstName(firstName);
+        if(matching_contacts!=null)
+        	System.out.println("\nContacts found!");
         return matching_contacts;
 
     }
