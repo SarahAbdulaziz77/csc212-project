@@ -435,8 +435,15 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     System.out.println(" Sorry Event not found. ");
                 } else {
                     System.out.println("\nEvent found!");
-                    System.out.println(Eventfound2);
-                }
+                    EventsList.FindFirst();
+                    while(!EventsList.last()) {
+                    	if(EventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
+                    		System.out.println(EventsList.Retrieve());
+                    	EventsList.FindNext();
+                    }
+                    if(EventsList.Retrieve().getTitle().equalsIgnoreCase(EventTitle))
+                		System.out.println(EventsList.Retrieve());
+                }//end else 
                 break;
             default:
                 System.out.println("Incorrect number please choose from 1-2!\n");
@@ -687,4 +694,4 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             }
         }while(choice!=8);
     }//end main
-} 
+}        
