@@ -5,11 +5,13 @@ import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class PhoneBook {
+public class PhoneBook { 
+	public static ContactBST ContactsList = new ContactBST();
+	public static LinkedList<Event> EventsList = new LinkedList<Event>();
     public static Scanner keyboard = new Scanner(System.in);
     //phone book methods for interacting with contacts list(when adding,searching,deleting)
     //MASHAEL
-    public static void print_EventsAlphabetically(LinkedList<Event> EventsList) {
+    public static void print_EventsAlphabetically() {
         //events were inserted by alphabetical order
         if(!EventsList.isEmpty()) {
             EventsList.FindFirst();
@@ -110,26 +112,26 @@ public static void SearchByCriteria(ContactBST ContactsList) {
 
      //MASHAEL
     //SearchEventByContactName method
-      public static Event SearchEventbyName (LinkedList<Event> Events, String name) {
-            if (Events.isEmpty()){
+      public static Event SearchEventbyName (String name) {
+            if (EventsList.isEmpty()){
                 return null; }
             else {
-                Events.FindFirst();
-                while (!Events.last()) {
-                	Event event =Events.Retrieve();
+                EventsList.FindFirst();
+                while (!EventsList.last()) {
+                	Event event =EventsList.Retrieve();
                 	while (!event.getEvent_contacts().last()) {
                         if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
                            return event;
                         event.getEvent_contacts().FindNext();
                         }//end inner while for the contacts of one event
                         //check last contact in this event
-                        event = Events.Retrieve();
+                        event = EventsList.Retrieve();
                         if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
                         return event;
-                    Events.FindNext();
+                    EventsList.FindNext();
                 }
                 //check last event
-                Event event =Events.Retrieve();
+                Event event =EventsList.Retrieve();
                     if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name))
                        return event;
                     else
@@ -138,18 +140,18 @@ public static void SearchByCriteria(ContactBST ContactsList) {
       }//end method
 
     //SearchEventByTitle method
-    public static Event SearchEventbyTitle (LinkedList<Event> Events, String title) {
-        if (Events.isEmpty()) {
+    public static Event SearchEventbyTitle ( String title) {
+        if (EventsList.isEmpty()) {
             return null;
         } else {
-            Events.FindFirst();
-            while (!Events.last()) {
-                if (Events.Retrieve().getTitle().equalsIgnoreCase(title))
-                    return Events.Retrieve();
-                Events.FindNext();
+            EventsList.FindFirst();
+            while (!EventsList.last()) {
+                if (EventsList.Retrieve().getTitle().equalsIgnoreCase(title))
+                    return EventsList.Retrieve();
+                EventsList.FindNext();
             }
-            if (Events.Retrieve().getTitle().equalsIgnoreCase(title))
-                return Events.Retrieve();
+            if (EventsList.Retrieve().getTitle().equalsIgnoreCase(title))
+                return EventsList.Retrieve();
 
             return null;
         }
@@ -173,16 +175,16 @@ public static void SearchByCriteria(ContactBST ContactsList) {
         }
 
     //MASHAEL
-    public static void deleteMatchingContactEventsForEventsList(String name, LinkedList<Event> Events) {
-        if(Events.isEmpty()) {
+    public static void deleteMatchingContactEventsForEventsList(String name) {
+        if(EventsList.isEmpty()) {
             return ;
         }
         //delete by appointment or event case
-        Events.FindFirst();
+        EventsList.FindFirst();
         Event event;
         //loop through all events of user and then for the last one repeat the code
-        while(!Events.last()) {
-            event = Events.Retrieve();
+        while(!EventsList.last()) {
+            event = EventsList.Retrieve();
             if(event.getType()=='E') {
                 while (!event.getEvent_contacts().last()) {
                     if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
@@ -190,33 +192,33 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         event.getEvent_contacts().Remove();
                         //if he was the only one in this event
                         if(event.getEvent_contacts().isEmpty())
-                            Events.Remove();
+                        	EventsList.Remove();
                     }
                 }//end inner while for the contacts of one event
                 //check last contact in this event 'E'
-                event = Events.Retrieve();
-                if (!Events.isEmpty() && event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
+                event = EventsList.Retrieve();
+                if (!EventsList.isEmpty() && event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
                     //moves current and delete contact
                     event.getEvent_contacts().Remove();
                     //if he was the only one in this event
                     if(event.getEvent_contacts().isEmpty())
-                        Events.Remove();
+                    	EventsList.Remove();
                 }
             }//end event 'E' Case
             else if(event.getType()=='A') {
                 //only look for first one in list cause there is only one
                 if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
                     //moves current and delete
-                    Events.Remove();
+                	EventsList.Remove();
                 }
             }//end appointment 'A' Case
             //no matching found continue and move current
-            else if(!Events.isEmpty())
-                Events.FindNext();
+            else if(!EventsList.isEmpty())
+            	EventsList.FindNext();
         }//end outer while
 
         //check last event/app in all event list
-        event = Events.Retrieve();
+        event = EventsList.Retrieve();
         if(event.getType()=='E') {
             while (!event.getEvent_contacts().last()) {
                 if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
@@ -224,24 +226,24 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     event.getEvent_contacts().Remove();
                     //if he was the only one in this event
                     if(event.getEvent_contacts().isEmpty())
-                        Events.Remove();
+                    	EventsList.Remove();
                 }
             }//end inner while for the contacts of one event
             //check last contact in this event 'E'
-            event = Events.Retrieve();
-            if (!Events.isEmpty() && event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
+            event = EventsList.Retrieve();
+            if (!EventsList.isEmpty() && event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
                 //moves current and delete contact
                 event.getEvent_contacts().Remove();
                 //if he was the only one in this event
                 if(event.getEvent_contacts().isEmpty())
-                    Events.Remove();
+                	EventsList.Remove();
             }
         }//end event 'E' Case
         else if(event.getType()=='A') {
             //only look for first one in list cause there is only one
             if (event.getEvent_contacts().Retrieve().getFullName().equalsIgnoreCase(name)) {
                 //moves current and delete
-                Events.Remove();
+            	EventsList.Remove();
             }
         }//end appointment 'A' Case
     }//end method
@@ -365,7 +367,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             return false;
         }
     }
-    public static void printEventDetails(LinkedList<Event> EventsList) {
+    public static void printEventDetails() {
     int SearchChoice2=0;
     do {
         System.out.println("\nEnter search criteria: ");
@@ -379,7 +381,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     //remove garbage
                     keyboard.nextLine();
                     String ContactName = keyboard.nextLine();
-                    Event Eventfound1 = SearchEventbyName(EventsList, ContactName);
+                    Event Eventfound1 = SearchEventbyName(ContactName);
                     if (Eventfound1 == null) {
                         System.out.println(" Sorry Event not found. ");
                     } else {
@@ -430,7 +432,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                 //remove garbage
                 keyboard.nextLine();
                 String EventTitle = keyboard.nextLine();
-                Event Eventfound2 = SearchEventbyTitle(EventsList, EventTitle);
+                Event Eventfound2 = SearchEventbyTitle(EventTitle);
                 if (Eventfound2 == null) {
                     System.out.println(" Sorry Event not found. ");
                 } else {
@@ -452,7 +454,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
        }while (SearchChoice2 <=0 || SearchChoice2>2);
 
         }//end method
-    public static void addContact(ContactBST ContactsList) {
+    public static void addContact() {
     	System.out.print("\nEnter the contact's name:");
         // remove garbage
         keyboard.nextLine();
@@ -481,7 +483,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
         else
             System.out.println("\nContact already exists.\n");
     }//end method
-    public static void deleteContact(ContactBST ContactsList,LinkedList<Event> EventsList) {
+    public static void deleteContact() {
     boolean deleted=false;
     //delete a contact and delete his appointments or his name if he exist in event
     //i need to check here if he can delete by number
@@ -494,7 +496,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
     if(ContactsList.removeKey(name) )
         deleted=true;
     //2.remove from events list
-    deleteMatchingContactEventsForEventsList(name, EventsList);
+    deleteMatchingContactEventsForEventsList(name);
 
 
     if (deleted == true) {
@@ -508,8 +510,6 @@ public static void SearchByCriteria(ContactBST ContactsList) {
     //main method
     public static void main(String[] args) {
 
-        ContactBST ContactsList = new ContactBST();
-        LinkedList<Event> EventsList = new LinkedList<Event>();
         System.out.println("\nWelcome to the BST Phonebook!");
         int choice = 0;
         do {
@@ -528,7 +528,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                 switch(choice) {
                     case 1:{
                     	//MASHAEL
-                    	addContact( ContactsList);
+                    	addContact();
                     	break;
                          }
                  case 2: {
@@ -541,7 +541,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     
                     case 3:{
                     	//MASHAEL
-                    	deleteContact(ContactsList,EventsList);
+                    	deleteContact();
                         break;
                     }
                     case 4:{
@@ -656,7 +656,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     case 5: {
                     	//MASHAEL
                         //print all events or appointments that share the same title or contact name
-                            printEventDetails(EventsList);
+                            printEventDetails();
                             break;
                             } //close case 5
 		case 6:
@@ -674,7 +674,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                     case 7:{
                     	//MASHAEL
                         System.out.println("\nAll Events list:\n");
-                        print_EventsAlphabetically(EventsList);
+                        print_EventsAlphabetically();
                         break;
                             }
                     case 8:{
@@ -694,4 +694,4 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             }
         }while(choice!=8);
     }//end main
-}        
+}      
