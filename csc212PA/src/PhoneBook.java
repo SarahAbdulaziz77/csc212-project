@@ -396,8 +396,8 @@ public static void SearchByCriteria(ContactBST ContactsList) {
         SearchChoice2 = keyboard.nextInt();
         switch (SearchChoice2) {
             case 1:
-            	//this will print the first event found with that contact name we may change it
-                    System.out.println("\nEnter the contact name: ");
+			//this methods print all events that a contact is involved in
+            	                   System.out.println("\nEnter the contact name: ");
                     //remove garbage
                     keyboard.nextLine();
                     String ContactName = keyboard.nextLine();
@@ -406,10 +406,47 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                         System.out.println(" Sorry Event not found. ");
                     } else {
                         System.out.println("\nEvent found!");
-                        System.out.println(Eventfound1);
                     }
+                    
+                    EventsList.FindFirst();
+                    if(!EventsList.isEmpty()) {
+                    while(!EventsList.last()) {
+                 	   LinkedList<Contact> contacts=EventsList.Retrieve().getEvent_contacts();
+                       if(!contacts.isEmpty()){
+                    	   contacts.FindFirst();
+                           while(!contacts.last() ){
+                    		  if(contacts.Retrieve().getFullName().equalsIgnoreCase(ContactName))
+                    		  System.out.println(EventsList.Retrieve());
+                    		  
+                    		  if(contacts.last())
+                    			  break;
+                    		  
+                    		  contacts.FindNext();
+                              }//end inner while 
+                    		  if(contacts.Retrieve().getFullName().equalsIgnoreCase(ContactName))
+                      			System.out.println(EventsList.Retrieve());
+                              } //end all if not empty
+                     EventsList.FindNext();
+            	       }
+                          	//check last event
+                    LinkedList<Contact> contacts=EventsList.Retrieve().getEvent_contacts();
+                    contacts.FindFirst();
+                    if(!contacts.isEmpty()){
+                    while(!contacts.last() ){
+                 		  if(contacts.Retrieve().getFullName().equalsIgnoreCase(ContactName))
+                 		  System.out.println(EventsList.Retrieve());
+                 		  
+                 		 if(contacts.last())
+               			  break;
+                 		 
+                 		  contacts.FindNext();
+                          }//end inner while 
+                 		  if(contacts.Retrieve().getFullName().equalsIgnoreCase(ContactName))
+                   			System.out.println(EventsList.Retrieve());
+                           } //end all if not empty
+                    	}//end checking events not empty
+                   
                     break;
-
             case 2:
                 System.out.println("\nEnter the event title: ");
                 //remove garbage
