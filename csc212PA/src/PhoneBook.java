@@ -32,7 +32,7 @@ public class PhoneBook {
         }
 return null;
     }
-public static void SearchByCriteria(ContactBST ContactsList) {
+public static void SearchByCriteria() {
         LinkedList<Contact> Contactfound = new LinkedList<Contact>();
         int SearchChoice = 0;
         do {
@@ -165,7 +165,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             return null;
         }
     }
-	 public static void PrintListForAllContacts(ContactsList){
+	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
             if (ContactsList.isEmpty()){
                 System.out.println("Sorry, the list is empty");
             }
@@ -703,4 +703,4 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             }
         }while(choice!=8);
     }//end main
-}      
+}     	 
