@@ -22,6 +22,15 @@ public class PhoneBook {
             // print last
             System.out.println(EventsList.Retrieve());
         }
+    }//Search for a contact by the name
+   public static Contact SearchByName(ContactBST ContactsList, String name){
+        if (ContactsList.empty())
+            return null;
+        boolean NameFound = ContactsList.findkey(name);
+        if (NameFound){
+            return ContactsList.retrieve();
+        }
+return null;
     }
 public static void SearchByCriteria(ContactBST ContactsList) {
         LinkedList<Contact> Contactfound = new LinkedList<Contact>();
@@ -156,7 +165,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
             return null;
         }
     }
-	 public static void PrintListForAllContacts(LinkedList<Contact> ContactsList){
+	 public static void PrintListForAllContacts(ContactsList){
             if (ContactsList.isEmpty()){
                 System.out.println("Sorry, the list is empty");
             }
