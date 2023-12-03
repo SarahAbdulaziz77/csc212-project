@@ -543,7 +543,7 @@ public static void SearchByCriteria(ContactBST ContactsList) {
                  case 2: {
                 	 //SARAH
                            
-                        SearchByCriteria(ContactsList);
+                        SearchByCriteria();
 
                         break;
                     }
